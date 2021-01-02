@@ -4,13 +4,14 @@ import ru.pankov.store.entity.Product;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductService {
     List<Product> findAll(BigDecimal min, BigDecimal max);
 
-    Product findById(Long id);
+    Optional<Product> findById(Long id);
 
     void save(Product product);
 
-    Product deleteById(Long id);
+    void deleteById(Long id);
 }

@@ -1,6 +1,6 @@
 package ru.pankov.store.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.pankov.store.dao.ProductDAO;
 import ru.pankov.store.entity.Product;
@@ -10,14 +10,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
-    ProductDAO productDAO;
-
-    @Autowired
-    public ProductServiceImpl(ProductDAO productDAO) {
-        this.productDAO = productDAO;
-    }
+    private final ProductDAO productDAO;
     
     @Override
     public List<Product> findAll(BigDecimal min, BigDecimal max) {
@@ -25,16 +21,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product findById(Long id) {
-
-        Optional<Product> product = productDAO.findById(id);
-        Product result = null;
-
-        if (product.isPresent()) {
-            result = product.get();
-        }
-
-        return result;
+    public Optional<Product> findById(Long id) {
+        return productDAO.findById(id);
     }
 
     @Override
@@ -43,17 +31,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product deleteById(Long id) {
-
-        Product product = findById(id);
-
-        if (product == null) {
-            throw new RuntimeException("Product with id " + id + " not found");
-        }
-
+    public void deleteById(Long id) {
         productDAO.deleteById(id);
-
-        return product;
     }
 
 

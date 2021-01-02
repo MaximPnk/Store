@@ -1,6 +1,6 @@
 package ru.pankov.store.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.pankov.store.entity.Product;
 import ru.pankov.store.service.ProductService;
@@ -10,49 +10,22 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/products")
+@RequiredArgsConstructor
 public class ProductController {
 
-    ProductService productService;
+    private final ProductService productService;
 
-    @Autowired
-    public ProductController(ProductService productService) {
-        this.productService = productService;
-    }
-
-    /*
-     * GET: http://localhost:8189/products/
-     *      http://localhost:8189/products/?min=51
-     *      http://localhost:8189/products/?max=100
-     *      http://localhost:8189/products/?min=51&max=100
-     */
-    @GetMapping("/")
+    @GetMapping
     public List<Product> productList(@RequestParam(value = "min", defaultValue = "0") BigDecimal min,
                                      @RequestParam(value = "max", defaultValue = "999999") BigDecimal max) {
         return productService.findAll(min, max);
     }
 
-    /*
-     * GET: http://localhost:8189/products/1
-     */
     @GetMapping("/{id}")
     public Product product(@PathVariable Long id) {
-        Product product = productService.findById(id);
-
-        if (product == null) {
-            throw new RuntimeException("Product with id " + id + " not found");
-        }
-
-        return product;
+        return productService.findById(id).orElseThrow(() -> new RuntimeException("There is no product with id = " + id));
     }
 
-    /*
-     * POST: http://localhost:8189/products/
-     * BODY:
-     *       {
-     *          "name": "Waterlemon",
-     *          "price": 250
-     *       }
-     */
     @PostMapping("/")
     public Product addProduct(@RequestBody Product product) {
         productService.save(product);
@@ -60,27 +33,14 @@ public class ProductController {
         return product;
     }
 
-    /*
-     * PUT: http://localhost:8189/products/
-     * BODY:
-     *       {
-     *          "id": 5,
-     *          "name": "Waterlemon",
-     *          "price": 150
-     *       }
-     */
     @PutMapping("/")
     public Product updProduct(@RequestBody Product product) {
         productService.save(product);
-
         return product;
     }
 
-    /*
-     * DELETE: http://localhost:8189/products/5
-     */
     @DeleteMapping("/{id}")
-    public Product delProduct(@PathVariable Long id) {
-        return productService.deleteById(id);
+    public void delProduct(@PathVariable Long id) {
+        productService.deleteById(id);
     }
 }
