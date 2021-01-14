@@ -1,0 +1,55 @@
+<html ng-app="app" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
+    <script src="products-list.js"></script>
+    <title>Product list</title>
+</head>
+
+<body>
+
+    <div class="container" ng-controller="productsController">
+
+        <h1>Product list</h1>
+        <hr>
+        <h3>Filter by price</h3>
+        <form novalidate class="form-inline" ng-submit="fillProducts()">
+            <div class="form-group mx-sm-3 mb-2">
+                <label for="filterMinPrice" class="sr-only">Min</label>
+                <input class="form-control" type="number" ng-model="filter.min" id="filterMinPrice" placeholder="Min">
+                <label for="filterMaxPrice" class="sr-only">Max</label>
+                <input class="form-control" type="number" ng-model="filter.max" id="filterMaxPrice" placeholder="Max">
+            </div>
+            <button class="btn btn-primary mb-2" type="submit">Filter</button>
+        </form>
+
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="p in productsList">
+                    <th scope="row">{{p.id}}</th>
+                    <td>{{p.name}}</td>
+                    <td>{{p.price}}</td>
+                    <!--<td><a href="/products/asd" onclick="if (!(confirm('Are you sure?'))) return false"> Delete </a></td>-->
+<!--                    <td><button id="remove" (click)="delete({{p.id}})">DELETE ROW</button></td>-->
+                    <td><button class="btn btn-dark" ng-click="deleteProduct(p.id)">Delete product</button></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</body>
+
+</html>
