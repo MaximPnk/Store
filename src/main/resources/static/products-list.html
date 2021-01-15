@@ -28,6 +28,11 @@
             <button class="btn btn-primary mb-2" type="submit">Filter</button>
             <button class="btn btn-primary mb-2" ng-click="clearFilters()" style="margin-left: 15px; margin-right: 15px">Clear Filters</button>
             <button class="btn btn-success mb-2" onclick="window.location.href='product-form.html'">Add new product</button>
+
+            <div style="margin-left: auto">
+                <label for="lmt">Limit:</label>
+                <select ng-model="selectedOption" ng-init="selectedOption = limits[1]" ng-change="updateSelected()" ng-options="l for l in limits" id="lmt"></select>
+            </div>
         </form>
 
         <table class="table">
@@ -45,7 +50,7 @@
                     <td>{{p.name}}</td>
                     <td>{{p.price}}</td>
                     <td>
-                        <button class="btn btn-danger" onclick="window.location.href='product-form.html'">Update product</button>
+                        <button class="btn btn-warning" onclick="window.location.href='product-form.html'">Update product</button>
                         <button class="btn btn-dark" ng-click="deleteProduct(p.id)">Delete product</button>
                     </td>
                 </tr>

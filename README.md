@@ -1,4 +1,7 @@
-"# Store" 
+
+
+
+TODO list:
 
 1. Create/update timestamps +
 2. DTO (поменять upd, add)

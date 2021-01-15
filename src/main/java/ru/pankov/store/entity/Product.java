@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import ru.pankov.store.dto.ProductDTO;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -33,4 +34,10 @@ public class Product {
     @Column(name = "updated_at")
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    public Product(ProductDTO productDTO) {
+        this.id = productDTO.getId();
+        this.name = productDTO.getName();
+        this.price = productDTO.getPrice();
+    }
 }

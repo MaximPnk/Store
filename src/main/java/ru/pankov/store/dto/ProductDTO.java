@@ -1,13 +1,13 @@
 package ru.pankov.store.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import ru.pankov.store.entity.Product;
 
 import java.math.BigDecimal;
 
 @Data
-@AllArgsConstructor
+@NoArgsConstructor
 public class ProductDTO {
 
     private Long id;
