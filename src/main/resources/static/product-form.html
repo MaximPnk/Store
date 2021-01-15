@@ -18,7 +18,7 @@
     <form ng-submit="createOrUpdate()" action="products-list.html">
         <div class="form-group">
             <label for="productId">Id</label>
-            <input type="number" class="form-control" id="productId" ng-model="product.id">
+            <input type="number" ng-readonly="true" class="form-control" id="productId" ng-model="product.id">
         </div>
         <div class="form-group">
             <label for="productName">Name</label>

@@ -66,4 +66,8 @@ angular.module('app', []).controller('productsController', function ($scope, $ht
         $scope.fillProducts();
     }
 
+    $scope.openForm = function (id) {
+        window.location.assign('product-form.html?id=' + id);
+    }
+
 });

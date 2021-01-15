@@ -29,7 +29,7 @@
                 <input class="form-control" type="number" ng-model="filter.max" id="filterMaxPrice" placeholder="Max">
             </div>
             <button class="btn btn-primary mb-2" type="submit">Filter</button>
-            <button class="btn btn-primary mb-2" ng-click="clearFilters()" type="reset" style="margin-left: 15px; margin-right: 15px">Clear Filters</button>
+            <button class="btn btn-primary mb-2" ng-click="clearFilters()" type="button" style="margin-left: 15px; margin-right: 15px">Clear Filters</button>
             <button class="btn btn-success mb-2" onclick="window.location.href='product-form.html'">Add new product</button>
 
             <div style="margin-left: auto">
@@ -56,7 +56,7 @@
                     <td>{{p.name}}</td>
                     <td>{{p.price}}</td>
                     <td>
-                        <button class="btn btn-warning" onclick="window.location.href='product-form.html'">Update product</button>
+                        <button class="btn btn-warning" ng-click="openForm(p.id)">Update product</button>
                         <button class="btn btn-dark" ng-click="deleteProduct(p.id)">Delete product</button>
                     </td>
                 </tr>

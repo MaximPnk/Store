@@ -1,8 +1,12 @@
 angular.module('app', []).controller('productFormController', function ($scope, $http) {
     const contextPath = 'http://localhost:8189/api/v1/products/';
 
-    $scope.id = 2;
-
+    if (document.URL.match(".*id=[0-9]+$")) {
+        $scope.id = document.URL.split("id=")[1];
+    }/* else {
+        $scope.id = null;
+    }
+*/
     $scope.fillForm = function() {
         if ($scope.id != null) {
             $http.get(contextPath + $scope.id)
