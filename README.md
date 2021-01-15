@@ -1,9 +1,4 @@
-
-
-
 TODO list:
 
-1. Create/update timestamps +
-2. DTO (поменять upd, add)
-3. Pagination (добавить условия)
-4. Update form (global variable / parse param)
+1. Pagination (добавить условия)
+2. Update form (global variable / parse param)

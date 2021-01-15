@@ -15,6 +15,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TestProductController {
 
+    /*
+     * Test Product class with all fields in Postman
+     * find all: http://localhost:8189/api/test/products/
+     * find one: http://localhost:8189/api/test/products/{id}
+     */
+
     private final ProductRepository productRepository;
 
     @GetMapping("/")

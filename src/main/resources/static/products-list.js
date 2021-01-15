@@ -49,8 +49,6 @@ angular.module('app', []).controller('productsController', function ($scope, $ht
 
     $scope.fillWithFilter = function () {
         $scope.fillProducts();
-        document.getElementById("filterMinPrice").value = null;
-        document.getElementById("filterMaxPrice").value = null;
     };
 
     $scope.deleteProduct = function (id) {
@@ -61,6 +59,8 @@ angular.module('app', []).controller('productsController', function ($scope, $ht
     };
 
     $scope.clearFilters = function () {
+        document.getElementById("filterMinPrice").value = null;
+        document.getElementById("filterMaxPrice").value = null;
         $scope.filter.min = null;
         $scope.filter.max = null;
         $scope.fillProducts();
