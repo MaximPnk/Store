@@ -1,46 +1,52 @@
 package ru.pankov.store.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
-import ru.pankov.store.entity.Product;
+import ru.pankov.store.dto.ProductDTO;
 import ru.pankov.store.service.ProductService;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("api/v1/products")
 @RequiredArgsConstructor
 public class ProductController {
 
     private final ProductService productService;
 
-    @GetMapping
-    public List<Product> productList(@RequestParam(value = "min", defaultValue = "0") BigDecimal min,
-                                     @RequestParam(value = "max", defaultValue = "999999") BigDecimal max) {
-        return productService.findAll(min, max);
+    @GetMapping("/")
+    public Page<ProductDTO> productList(@RequestParam(value = "min", defaultValue = "0") BigDecimal min,
+                                        @RequestParam(value = "max", defaultValue = "999999") BigDecimal max,
+                                        @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                        @RequestParam(value = "limit") Integer limit) {
+        return productService.findAll(min, max, page, limit);
     }
 
     @GetMapping("/{id}")
-    public Product product(@PathVariable Long id) {
+    public ProductDTO product(@PathVariable Long id) {
         return productService.findById(id).orElseThrow(() -> new RuntimeException("There is no product with id = " + id));
     }
 
     @PostMapping("/")
-    public Product addProduct(@RequestBody Product product) {
-        productService.save(product);
-
-        return product;
+    public ProductDTO addProduct(@RequestBody ProductDTO productDTO) {
+        productService.save(productDTO);
+        return productDTO;
     }
 
     @PutMapping("/")
-    public Product updProduct(@RequestBody Product product) {
-        productService.save(product);
-        return product;
+    public ProductDTO updProduct(@RequestBody ProductDTO productDTO) {
+        productService.save(productDTO);
+        return productDTO;
     }
 
     @DeleteMapping("/{id}")
     public void delProduct(@PathVariable Long id) {
         productService.deleteById(id);
+    }
+
+    @DeleteMapping("/")
+    public void delProduct(@RequestBody ProductDTO productDTO) {
+        productService.delete(productDTO);
     }
 }

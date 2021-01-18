@@ -1,0 +1,38 @@
+<html ng-app="app" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
+    <script src="product-form.js"></script>
+    <title>Product form</title>
+</head>
+
+<body>
+<div class="container" ng-controller="productFormController">
+
+    <h1>Product form</h1>
+    <form ng-submit="createOrUpdate()" action="products-list.html">
+        <div class="form-group">
+            <label for="productId">Id</label>
+            <input type="number" ng-readonly="true" class="form-control" id="productId" ng-model="product.id">
+        </div>
+        <div class="form-group">
+            <label for="productName">Name</label>
+            <input type="text" class="form-control" id="productName" ng-model="product.name">
+        </div>
+        <div class="form-group">
+            <label for="productPrice">Price</label>
+            <input type="number" class="form-control" id="productPrice" ng-model="product.price">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="reset" class="btn btn-danger" onclick="window.location.href='products-list.html'">Cancel</button>
+    </form>
+
+</div>
+</body>
+
+</html>
