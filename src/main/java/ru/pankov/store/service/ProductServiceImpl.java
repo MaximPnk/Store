@@ -29,22 +29,38 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void save(ProductDTO productDTO) {
+    public boolean save(ProductDTO productDTO) {
         Product p = new Product(productDTO);
         if (p.getId() != null) {
-            p.setCreatedAt(productRepository.findById(p.getId()).orElseThrow(() -> new RuntimeException("Invalid product")).getCreatedAt());
+            Optional<Product> found = productRepository.findById(p.getId());
+            if (!found.isPresent()) {
+                return false;
+            }
+            p.setCreatedAt(found.get().getCreatedAt());
         }
         productRepository.save(p);
+        return true;
     }
 
     @Override
-    public void deleteById(Long id) {
-        productRepository.deleteById(id);
+    public boolean deleteById(Long id) {
+        if (productRepository.findById(id).isPresent()) {
+            productRepository.deleteById(id);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
-    public void delete(ProductDTO productDTO) {
-        productRepository.delete(productRepository.findById(productDTO.getId()).orElseThrow(() -> new RuntimeException("Invalid product")));
+    public boolean delete(ProductDTO productDTO) {
+        Optional<Product> p = productRepository.findById(productDTO.getId());
+        if (p.isPresent()) {
+            productRepository.delete(p.get());
+            return true;
+        } else {
+            return false;
+        }
     }
 
 

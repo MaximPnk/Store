@@ -12,9 +12,9 @@ public interface ProductService {
 
     Optional<ProductDTO> findById(Long id);
 
-    void save(ProductDTO productDTO);
+    boolean save(ProductDTO productDTO);
 
-    void deleteById(Long id);
+    boolean deleteById(Long id);
 
-    void delete(ProductDTO productDTO);
+    boolean delete(ProductDTO productDTO);
 }

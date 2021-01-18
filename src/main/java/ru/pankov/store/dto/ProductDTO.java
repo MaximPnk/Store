@@ -11,12 +11,12 @@ import java.math.BigDecimal;
 public class ProductDTO {
 
     private Long id;
-    private String name;
+    private String title;
     private BigDecimal price;
 
     public ProductDTO(Product p) {
         this.id = p.getId();
-        this.name = p.getName();
+        this.title = p.getTitle();
         this.price = p.getPrice();
     }
 }

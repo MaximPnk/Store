@@ -17,12 +17,12 @@
     <h1>Product form</h1>
     <form ng-submit="createOrUpdate()" action="products-list.html">
         <div class="form-group">
-            <label for="productId">Id</label>
+            <label for="productId">Article</label>
             <input type="number" ng-readonly="true" class="form-control" id="productId" ng-model="product.id">
         </div>
         <div class="form-group">
-            <label for="productName">Name</label>
-            <input type="text" class="form-control" id="productName" ng-model="product.name">
+            <label for="productTitle">Title</label>
+            <input type="text" class="form-control" id="productTitle" ng-model="product.title">
         </div>
         <div class="form-group">
             <label for="productPrice">Price</label>
