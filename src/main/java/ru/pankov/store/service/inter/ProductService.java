@@ -1,4 +1,4 @@
-package ru.pankov.store.service;
+package ru.pankov.store.service.inter;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;

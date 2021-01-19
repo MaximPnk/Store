@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import ru.pankov.store.dao.ProductRepository;
 import ru.pankov.store.dto.ProductDTO;
 import ru.pankov.store.entity.Product;
+import ru.pankov.store.service.inter.ProductService;
 
 import java.util.Optional;
 
@@ -62,6 +63,4 @@ public class ProductServiceImpl implements ProductService {
             return false;
         }
     }
-
-
 }

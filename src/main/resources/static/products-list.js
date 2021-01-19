@@ -69,4 +69,20 @@ angular.module('app', []).controller('productsController', function ($scope, $ht
         window.location.assign('product-form.html?id=' + id);
     }
 
+    $scope.userId = 1;
+
+    $scope.addToBasket = function (p) {
+        $http({
+            url: "http://localhost:8189/api/v1/basket/",
+            method: "POST",
+            params: {
+                userId: $scope.userId
+            },
+            headers: {
+                'Content-Type': "application/json"
+            },
+            data: p
+        });
+    };
+
 });

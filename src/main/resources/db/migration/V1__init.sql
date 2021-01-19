@@ -6,6 +6,14 @@ CREATE TABLE products (
     updated_at timestamp default current_timestamp
 );
 
+create table products_in_basket(
+    id serial NOT NULL primary key,
+    user_id int not null,
+    product_id int not null,
+    count int not null,
+    constraint basket_product_fk foreign key (product_id) references products(id)
+);
+
 INSERT INTO products (title,price) VALUES
     ('Milk',130.0),
     ('Orange',50.0),
@@ -24,3 +32,9 @@ INSERT INTO products (title,price) VALUES
     ('Peach',450.0),
     ('Raspberry',399.0),
     ('Pineapple',999.0);
+
+insert into products_in_basket (user_id, product_id, count) values
+    (1, 1, 1),
+    (1, 2, 3),
+    (1, 3, 5),
+    (1, 4, 12);

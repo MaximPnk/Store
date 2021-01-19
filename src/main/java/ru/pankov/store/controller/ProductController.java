@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.pankov.store.dao.spec.ProductSpecification;
 import ru.pankov.store.dto.ProductDTO;
 import ru.pankov.store.err.ResourceNotFoundException;
-import ru.pankov.store.service.ProductService;
+import ru.pankov.store.service.inter.ProductService;
 
 @RestController
 @RequestMapping("api/v1/products")
@@ -20,7 +20,6 @@ public class ProductController {
     public Page<ProductDTO> productList(@RequestParam MultiValueMap<String, String> params,
                                         @RequestParam(value = "page", defaultValue = "1") Integer page,
                                         @RequestParam(value = "limit", defaultValue = "5") Integer limit) {
-        System.out.println(params);
         return productService.findAll(ProductSpecification.build(params), page, limit);
     }
 
