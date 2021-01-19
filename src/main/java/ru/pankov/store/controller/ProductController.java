@@ -2,12 +2,12 @@ package ru.pankov.store.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+import ru.pankov.store.dao.spec.ProductSpecification;
 import ru.pankov.store.dto.ProductDTO;
 import ru.pankov.store.err.ResourceNotFoundException;
 import ru.pankov.store.service.ProductService;
-
-import java.math.BigDecimal;
 
 @RestController
 @RequestMapping("api/v1/products")
@@ -17,11 +17,11 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping("/")
-    public Page<ProductDTO> productList(@RequestParam(value = "min", defaultValue = "0") BigDecimal min,
-                                        @RequestParam(value = "max", defaultValue = "999999") BigDecimal max,
+    public Page<ProductDTO> productList(@RequestParam MultiValueMap<String, String> params,
                                         @RequestParam(value = "page", defaultValue = "1") Integer page,
                                         @RequestParam(value = "limit", defaultValue = "5") Integer limit) {
-        return productService.findAll(min, max, page, limit);
+        System.out.println(params);
+        return productService.findAll(ProductSpecification.build(params), page, limit);
     }
 
     @GetMapping("/{id}")

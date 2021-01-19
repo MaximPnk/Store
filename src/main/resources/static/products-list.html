@@ -21,8 +21,10 @@
         <h1>Product list</h1>
         <hr>
         <h3>Filter by price</h3>
-        <form id="filterProducts" novalidate class="form-inline" ng-submit="fillWithFilter()">
+        <form id="filterProducts" novalidate class="form-inline" ng-submit="fillProducts()">
             <div class="form-group mx-sm-3 mb-2">
+                <label for="filterTitle" class="sr-only">Title</label>
+                <input class="form-control" type="text" ng-model="filter.title" id="filterTitle" placeholder="Title">
                 <label for="filterMinPrice" class="sr-only">Min</label>
                 <input class="form-control" type="number" ng-model="filter.min" id="filterMinPrice" placeholder="Min">
                 <label for="filterMaxPrice" class="sr-only">Max</label>
@@ -66,10 +68,30 @@
 <!--
         pagination
 -->
-        <nav aria-label="Page navigation">
+        <!--<nav aria-label="Page navigation">
             <ul class="pagination">
                 <li class="page-item" ng-repeat="i in paginationArray">
                     <a class="page-link" ng-click="fillProducts(i)">{{i}}</a>
+                </li>
+            </ul>
+        </nav>-->
+
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li ng-class="productsPage.first ? 'page-item disabled' : 'page-item'">
+                    <a ng-class="productsPage.first ? 'page-link' : 'page-link text-primary'" ng-click="fillProducts(1)"><<</a>
+                </li>
+                <li ng-class="productsPage.first ? 'page-item disabled' : 'page-item'">
+                    <a ng-class="productsPage.first ? 'page-link' : 'page-link text-primary'" ng-click="fillProducts(productsPage.number)"><</a>
+                </li>
+                <li class="page-item active">
+                    <a class="page-link">{{productsPage.number + 1}}</a>
+                </li>
+                <li ng-class="productsPage.last ? 'page-item disabled' : 'page-item'">
+                    <a ng-class="productsPage.last ? 'page-link' : 'page-link text-primary'" ng-click="fillProducts(productsPage.number + 2)">></a>
+                </li>
+                <li ng-class="productsPage.last ? 'page-item disabled' : 'page-item'">
+                    <a ng-class="productsPage.last ? 'page-link' : 'page-link text-primary'" ng-click="fillProducts(productsPage.totalPages)">>></a>
                 </li>
             </ul>
         </nav>

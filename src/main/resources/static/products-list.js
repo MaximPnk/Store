@@ -6,9 +6,10 @@ angular.module('app', []).controller('productsController', function ($scope, $ht
             url: contextPath,
             method: "GET",
             params: {
+                title: $scope.filter ? $scope.filter.title : null,
                 min: $scope.filter ? $scope.filter.min : null,
                 max: $scope.filter ? $scope.filter.max : null,
-                page: page,
+                page: page ? page : 1,
                 limit: $scope.limitPage ? $scope.limitPage : 5
             }
         }).then(function (response) {
@@ -47,10 +48,6 @@ angular.module('app', []).controller('productsController', function ($scope, $ht
         return arr;
     }
 
-    $scope.fillWithFilter = function () {
-        $scope.fillProducts();
-    };
-
     $scope.deleteProduct = function (id) {
         $http.delete(contextPath + id)
             .then(function () {
@@ -61,8 +58,10 @@ angular.module('app', []).controller('productsController', function ($scope, $ht
     $scope.clearFilters = function () {
         document.getElementById("filterMinPrice").value = null;
         document.getElementById("filterMaxPrice").value = null;
+        document.getElementById("filterTitle").value = null;
         $scope.filter.min = null;
         $scope.filter.max = null;
+        $scope.filter.title = null;
         $scope.fillProducts();
     }
 

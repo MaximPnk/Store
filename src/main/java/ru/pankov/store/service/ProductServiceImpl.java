@@ -3,12 +3,12 @@ package ru.pankov.store.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import ru.pankov.store.dao.ProductRepository;
 import ru.pankov.store.dto.ProductDTO;
 import ru.pankov.store.entity.Product;
 
-import java.math.BigDecimal;
 import java.util.Optional;
 
 @Service
@@ -18,8 +18,8 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
 
     @Override
-    public Page<ProductDTO> findAll(BigDecimal min, BigDecimal max, Integer page, Integer limit) {
-        Page<Product> productsPage = productRepository.findAllByPriceBetween(min, max, PageRequest.of(page - 1, limit));
+    public Page<ProductDTO> findAll(Specification<Product> spec, Integer page, Integer limit) {
+        Page<Product> productsPage = productRepository.findAll(spec, PageRequest.of(page - 1, limit));
         return productsPage.map(ProductDTO::new);
     }
 
