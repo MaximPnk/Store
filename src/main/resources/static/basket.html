@@ -1,0 +1,53 @@
+<html ng-app="app" lang="en" xmlns:margin="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
+    <script src="basket.js"></script>
+    <title>Basket</title>
+</head>
+
+<body>
+
+<div class="container" ng-controller="basketController">
+
+    <h1>Basket</h1>
+
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Article</th>
+            <th scope="col">Title</th>
+            <th scope="col">Price</th>
+            <th scope="col">Count</th>
+            <th scope="col">Change</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="p in products">
+            <th scope="row">{{p.product.id}}</th>
+            <td>{{p.product.title}}</td>
+            <td>{{p.product.price}}</td>
+            <td>{{p.count}}</td>
+            <td>
+                <button type="button" class="btn btn-warning" ng-click="updateCount(p, -1)">-</button>
+                <button type="button" class="btn btn-warning" ng-click="updateCount(p, 1)">+</button>
+            </td>
+            <td><button type="button" class="btn btn-danger" ng-click="removeProduct(p)">Remove</button></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <button class="btn btn-danger" ng-click="clearBasket()">Clear basket</button>
+    <button class="btn btn-primary" onclick="window.location.href='products-list.html'">Back to shop</button>
+
+</div>
+
+</body>
+
+</html>

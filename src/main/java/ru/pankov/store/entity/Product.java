@@ -21,8 +21,8 @@ public class Product {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "title")
+    private String title;
 
     @Column(name = "price")
     private BigDecimal price;
@@ -37,7 +37,7 @@ public class Product {
 
     public Product(ProductDTO productDTO) {
         this.id = productDTO.getId();
-        this.name = productDTO.getName();
+        this.title = productDTO.getTitle();
         this.price = productDTO.getPrice();
     }
 }

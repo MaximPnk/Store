@@ -3,10 +3,8 @@ angular.module('app', []).controller('productFormController', function ($scope, 
 
     if (document.URL.match(".*id=[0-9]+$")) {
         $scope.id = document.URL.split("id=")[1];
-    }/* else {
-        $scope.id = null;
     }
-*/
+
     $scope.fillForm = function() {
         if ($scope.id != null) {
             $http.get(contextPath + $scope.id)
