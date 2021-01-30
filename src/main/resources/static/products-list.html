@@ -22,7 +22,7 @@
         <hr>
 
         <button class="btn btn-success mb-2" onclick="window.location.href='product-form.html'">Add new product</button>
-        <button class="btn btn-info mb-2" onclick="window.location.href='basket.html'" style="margin-left: 15px">Basket</button>
+        <button class="btn btn-info mb-2" onclick="window.location.href='cart.html'" style="margin-left: 15px">Basket</button>
 
         <h3>Filter by price</h3>
         <form id="filterProducts" novalidate class="form-inline" ng-submit="fillProducts()">
@@ -61,7 +61,7 @@
                     <td>{{p.title}}</td>
                     <td>{{p.price}}</td>
                     <td>
-                        <button class="btn btn-success" ng-click="addToBasket(p)">Add to basket</button>
+                        <button class="btn btn-success" ng-click="addToCart(p.id)">Add to cart</button>
                         <button class="btn btn-warning" ng-click="openForm(p.id)">Update product</button>
                         <button class="btn btn-dark" ng-click="deleteProduct(p.id)">Delete product</button>
                     </td>

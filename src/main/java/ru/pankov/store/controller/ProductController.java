@@ -25,7 +25,7 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ProductDTO product(@PathVariable Long id) {
-        return productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("There is no product with id = " + id));
+        return productService.findProductDTOById(id).orElseThrow(() -> new ResourceNotFoundException("There is no product with id = " + id));
     }
 
     @PostMapping("/")

@@ -25,8 +25,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Optional<ProductDTO> findById(Long id) {
+    public Optional<ProductDTO> findProductDTOById(Long id) {
         return productRepository.findById(id).map(ProductDTO::new);
+    }
+
+    @Override
+    public Optional<Product> findProductById(Long id) {
+        return productRepository.findById(id);
     }
 
     @Override
