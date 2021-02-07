@@ -11,7 +11,9 @@ public interface ProductService {
 
     Page<ProductDTO> findAll(Specification<Product> spec, Integer page, Integer limit);
 
-    Optional<ProductDTO> findById(Long id);
+    Optional<ProductDTO> findProductDTOById(Long id);
+
+    Optional<Product> findProductById(Long id);
 
     boolean save(ProductDTO productDTO);
 

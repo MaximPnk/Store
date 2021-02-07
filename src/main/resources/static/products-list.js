@@ -1,9 +1,9 @@
 angular.module('app', []).controller('productsController', function ($scope, $http) {
-    const contextPath = 'http://localhost:8189/api/v1/products/';
+    const contextPath = 'http://localhost:8189/api/v1';
 
     $scope.fillProducts = function (page) {
         $http({
-            url: contextPath,
+            url: contextPath + '/products/',
             method: "GET",
             params: {
                 title: $scope.filter ? $scope.filter.title : null,
@@ -49,7 +49,7 @@ angular.module('app', []).controller('productsController', function ($scope, $ht
     }
 
     $scope.deleteProduct = function (id) {
-        $http.delete(contextPath + id)
+        $http.delete(contextPath + '/products/' + id)
             .then(function () {
                 $scope.fillProducts();
             });
@@ -66,23 +66,11 @@ angular.module('app', []).controller('productsController', function ($scope, $ht
     }
 
     $scope.openForm = function (id) {
-        window.location.assign('product-form.html?id=' + id);
+        window.location.assign('/product-form.html?id=' + id);
     }
 
-    $scope.userId = 1;
-
-    $scope.addToBasket = function (p) {
-        $http({
-            url: "http://localhost:8189/api/v1/basket/",
-            method: "POST",
-            params: {
-                userId: $scope.userId
-            },
-            headers: {
-                'Content-Type': "application/json"
-            },
-            data: p
-        });
+    $scope.addToCart = function (id) {
+        $http.get(contextPath + "/cart/add/" + id);
     };
 
 });
