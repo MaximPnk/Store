@@ -18,7 +18,7 @@ angular.module('app', []).controller('productsController', function ($scope, $ht
         });
     };
 
-    $scope.fillProducts();
+    // $scope.fillProducts();
 
     $scope.limits = [3, 5, 7, 10];
 
@@ -71,6 +71,23 @@ angular.module('app', []).controller('productsController', function ($scope, $ht
 
     $scope.addToCart = function (id) {
         $http.get(contextPath + "/cart/add/" + id);
+    };
+
+    $scope.authorized = false;
+
+    $scope.tryToAuth = function () {
+        $http.post('http://localhost:8189/auth', $scope.user)
+            .then(function successCallback(response) {
+                if (response.data.token) {
+                    $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
+                    $scope.user.username = null;
+                    $scope.user.password = null;
+                    $scope.authorized = true;
+                    $scope.fillProducts();
+                }
+            }, function errorCallback(response) {
+                window.alert("Error");
+            });
     };
 
 });

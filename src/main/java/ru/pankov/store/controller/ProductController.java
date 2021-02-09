@@ -2,6 +2,7 @@ package ru.pankov.store.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import ru.pankov.store.dao.spec.ProductSpecification;
@@ -29,6 +30,7 @@ public class ProductController {
     }
 
     @PostMapping("/")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ProductDTO addProduct(@RequestBody ProductDTO productDTO) {
         if (!productService.save(productDTO)) {
             throw new ResourceNotFoundException("There is no product with id = " + productDTO.getId());
@@ -37,6 +39,7 @@ public class ProductController {
     }
 
     @PutMapping("/")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ProductDTO updProduct(@RequestBody ProductDTO productDTO) {
         if (!productService.save(productDTO)) {
             throw new ResourceNotFoundException("There is no product with id = " + productDTO.getId());
@@ -45,6 +48,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void delProduct(@PathVariable Long id) {
         if (!productService.deleteById(id)) {
             throw new ResourceNotFoundException("There is no product with id = " + id);
@@ -52,6 +56,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void delProduct(@RequestBody ProductDTO productDTO) {
         if (!productService.delete(productDTO)) {
             throw new ResourceNotFoundException("There is no product with id = " + productDTO.getId());

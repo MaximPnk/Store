@@ -30,6 +30,10 @@ public class OrderItem {
     @Column(name = "price")
     private BigDecimal price;
 
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
+
     public OrderItem(Product product) {
         this.product = product;
         this.quantity = 1;
