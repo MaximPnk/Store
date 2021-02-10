@@ -27,7 +27,7 @@ public class JwtTokenUtil {
         claims.put("roles", rolesList);
 
         Date issuedDate = new Date();
-        Date expiredDate = new Date(issuedDate.getTime() + 15 * 60 * 1000); // 15 min
+        Date expiredDate = new Date(issuedDate.getTime() + 15 * 1000); // 15 min
 
         return Jwts.builder()
             .setClaims(claims)
