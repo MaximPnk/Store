@@ -27,6 +27,9 @@ public class Product {
     @Column(name = "price")
     private BigDecimal price;
 
+    @Column(name = "count")
+    private Integer count;
+
     @Column(name = "created_at")
     @CreationTimestamp
     private LocalDateTime createdAt;
@@ -39,5 +42,6 @@ public class Product {
         this.id = productDTO.getId();
         this.title = productDTO.getTitle();
         this.price = productDTO.getPrice();
+        this.count = productDTO.getCount();
     }
 }

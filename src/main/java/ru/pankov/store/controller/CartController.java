@@ -21,7 +21,6 @@ public class CartController {
 
     @GetMapping("/add/{id}")
     public void addToCart(@PathVariable Long id) {
-        System.out.println("+");
         cart.addToCart(id);
     }
 

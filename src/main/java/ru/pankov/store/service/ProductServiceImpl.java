@@ -10,6 +10,7 @@ import ru.pankov.store.dto.ProductDTO;
 import ru.pankov.store.entity.Product;
 import ru.pankov.store.service.inter.ProductService;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -17,6 +18,16 @@ import java.util.Optional;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+
+    @Override
+    public List<Product> findAll() {
+        return productRepository.findAll();
+    }
+
+    @Override
+    public void save(Product product) {
+        productRepository.save(product);
+    }
 
     @Override
     public Page<ProductDTO> findAll(Specification<Product> spec, Integer page, Integer limit) {

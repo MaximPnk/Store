@@ -5,9 +5,14 @@ import org.springframework.data.jpa.domain.Specification;
 import ru.pankov.store.dto.ProductDTO;
 import ru.pankov.store.entity.Product;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ProductService {
+
+    List<Product> findAll();
+
+    void save(Product product);
 
     Page<ProductDTO> findAll(Specification<Product> spec, Integer page, Integer limit);
 
