@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import ru.pankov.store.bean.Cart;
 import ru.pankov.store.entity.Order;
 import ru.pankov.store.entity.OrderItem;
@@ -15,7 +16,7 @@ import ru.pankov.store.service.inter.UserService;
 
 import java.security.Principal;
 
-@Controller
+@RestController
 @RequestMapping("/order")
 @RequiredArgsConstructor
 public class OrderController {
@@ -26,11 +27,14 @@ public class OrderController {
     private final OrderItemService orderItemService;
     private final ProductService productService;
 
-    //TODO на бэке работает, но фронт после makeOrder() не ждёт .then и обновляет страницу до изменений (???)
+    //TODO makeOrder - кнопка на фронте только при наличии товара, метод работает только при наличии товара
+    //TODO добавить recalculate и закинуть туда апдейт цен
+    //TODO рефакторинг и удаление лишнего фронта
+    //TODO тетрадь
+    //TODO история заказов
+    //TODO добавить юзера и посмотреть как они работают с корзиной и заказами
 
-    //TODO проверить корректность работы корзины в сессиях между юзерами
-
-    @GetMapping("/")
+    @GetMapping
     public void makeOrder(Principal principal) {
         User user = userService.findByUsername(principal.getName()).get();
         Order order = new Order(user);

@@ -8,31 +8,22 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.11/ngStorage.min.js"></script>
-    <script src="test1.js"></script>
-    <title>Test1</title>
+    <script src="a1auth.js"></script>
+    <title>Authorization</title>
 </head>
 
 <body>
 
-<div class="container" ng-controller="test1Controller">
+<div class="container" ng-controller="a1authController">
 
-    <div class="mb-3 text-center" ng-show="!authorized">
+    <div class="mb-3 text-center">
         <form class="form-signin" ng-submit="tryToAuth()" style="max-width: 350px; padding: 15px; margin: 0 auto;">
             <label for="inputUsername" class="sr-only">Username</label>
-            <input type="text" ng-model="user.username" id="inputUsername" class="form-control"
-                   placeholder="Username" style="margin-bottom: 10px;" required="">
+            <input type="text" ng-model="user.username" id="inputUsername" class="form-control" placeholder="Username" style="margin-bottom: 10px;" required="">
             <label for="inputPassword" class="sr-only">Password</label>
-            <input type="password" ng-model="user.password" id="inputPassword" class="form-control"
-                   placeholder="Password"
-                   style="margin-bottom: 10px;" required="">
+            <input type="password" ng-model="user.password" id="inputPassword" class="form-control" placeholder="Password" style="margin-bottom: 10px;" required="">
             <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
         </form>
-    </div>
-
-    <div ng-show="authorized">
-        <h1>First page</h1>
-        <div>{{decodedShopToken}}</div>
-        <button type="button" class="btn btn-danger" ng-click="logout()">Logout</button>
     </div>
 
 </div>
