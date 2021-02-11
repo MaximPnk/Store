@@ -13,8 +13,16 @@ angular.module('app', ['ngStorage']).controller('authController', function ($sco
                     window.location = contextPath + 'index.html';
                 }
             }, function errorCallback(response) {
-                window.alert("Error");
+                window.alert(response.data.message);
             });
+    }
+
+    $scope.goToShop = function () {
+        window.location = contextPath + 'index.html';
+    }
+
+    $scope.goToReg = function () {
+        window.location = contextPath + 'registration.html';
     }
 
 });

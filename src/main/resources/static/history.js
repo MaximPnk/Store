@@ -73,6 +73,10 @@ angular.module('app', ['ngStorage']).controller('historyController', function ($
         window.location = contextPath + 'cart.html';
     }
 
+    $scope.goToReg = function () {
+        window.location = contextPath + 'registration.html';
+    }
+
     $scope.logout = function() {
         $scope.clearUserData();
     }
