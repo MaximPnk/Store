@@ -13,8 +13,6 @@ public interface OrderService {
 
     List<OrderDTOForAdmins> findAll();
 
-    Optional<Order> findById(Long id);
-
     void saveOrUpdate(Order order);
 
     @Transactional

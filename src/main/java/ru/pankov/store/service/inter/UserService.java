@@ -14,8 +14,4 @@ public interface UserService extends UserDetailsService {
 
     Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles);
 
-    Optional<User> findById(Long id);
-
-    void saveOrUpdate(User user);
-
 }

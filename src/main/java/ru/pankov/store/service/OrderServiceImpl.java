@@ -34,11 +34,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Optional<Order> findById(Long id) {
-        return orderRepository.findById(id);
-    }
-
-    @Override
     public void saveOrUpdate(Order order) {
         orderRepository.save(order);
     }

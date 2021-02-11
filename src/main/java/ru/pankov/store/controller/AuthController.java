@@ -20,6 +20,8 @@ import ru.pankov.store.service.inter.UserService;
 @RequiredArgsConstructor
 public class AuthController {
 
+    //TODO registration
+
     private final UserService userService;
     private final JwtTokenUtil jwtTokenUtil;
     private final AuthenticationManager authenticationManager;

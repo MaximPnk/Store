@@ -24,10 +24,6 @@ public class OrderController {
     private final UserService userService;
     private final OrderService orderService;
 
-    //TODO рефакторинг и удаление лишнего фронта
-    //TODO добавить юзера и посмотреть как они работают с корзиной и заказами
-    //TODO регистрация
-
     @GetMapping("/curr")
     @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     public List<OrderDTOForCustomers> getOrdersByUser(Principal principal) {

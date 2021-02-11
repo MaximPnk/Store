@@ -3,7 +3,6 @@ package ru.pankov.store.dto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.pankov.store.entity.Order;
-import ru.pankov.store.entity.User;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

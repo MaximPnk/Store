@@ -9,6 +9,9 @@ import ru.pankov.store.dao.spec.ProductSpecification;
 import ru.pankov.store.dto.ProductDTO;
 import ru.pankov.store.err.ResourceNotFoundException;
 import ru.pankov.store.service.inter.ProductService;
+import ru.pankov.store.service.inter.UserService;
+
+import java.security.Principal;
 
 @RestController
 @RequestMapping("api/v1/products")
@@ -16,8 +19,6 @@ import ru.pankov.store.service.inter.ProductService;
 public class ProductController {
 
     private final ProductService productService;
-
-    //TODO реализовать логику вывода продуктов с количеством = 0 (возможно проще на фронте, учитывая роли (для админа с 0, для остальных без))
 
     @GetMapping("/")
     public Page<ProductDTO> productList(@RequestParam MultiValueMap<String, String> params,

@@ -9,6 +9,7 @@ angular.module('app', ['ngStorage']).controller('indexController', function ($sc
                 title: $scope.filter ? $scope.filter.title : null,
                 min: $scope.filter ? $scope.filter.min : null,
                 max: $scope.filter ? $scope.filter.max : null,
+                present: $scope.present ? $scope.present : false,
                 page: page ? page : 1,
                 limit: $scope.limitPage ? $scope.limitPage : 5
             }
@@ -68,6 +69,7 @@ angular.module('app', ['ngStorage']).controller('indexController', function ($sc
         $scope.isCustomer = false;
         $scope.selectedOption = 5;
         $scope.updatePageLimit();
+        $scope.present = false;
     }
 
     if ($localStorage.shopToken) {

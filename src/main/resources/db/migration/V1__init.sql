@@ -73,7 +73,7 @@ insert into users_roles (user_id, role_id) values
     (3, 2);
 
 INSERT INTO products (title, price, count) VALUES
-    ('Milk',130.0,123),
+    ('Milk',130.0,0),
     ('Orange',50.0,235),
     ('Lemon',90.0,456),
     ('Cucumber',110.0,4835),
