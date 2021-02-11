@@ -8,19 +8,23 @@ CREATE TABLE products (
 );
 
 create table users (
-                       id bigserial,
-                       username varchar(30) not null,
-                       password varchar(80) not null,
-                       email varchar(50) unique,
-                       phone varchar(50) unique,
-                       primary key (id)
+    id bigserial,
+    username varchar(30) not null,
+    password varchar(80) not null,
+    email varchar(50) unique,
+    phone varchar(50) unique,
+    primary key (id),
+    created_at timestamp default current_timestamp,
+    updated_at timestamp default current_timestamp
 );
 
 create table orders (
-                        id bigserial not null primary key,
-                        user_id bigint not null,
-                        created_at timestamp default current_timestamp,
-                        foreign key (user_id) references users (id)
+    id bigserial not null primary key,
+    user_id bigint not null,
+    price float not null,
+    created_at timestamp default current_timestamp,
+    updated_at timestamp default current_timestamp,
+    foreign key (user_id) references users (id)
 );
 
 CREATE TABLE order_items (
@@ -31,13 +35,17 @@ CREATE TABLE order_items (
     price float,
     order_id bigint,
     constraint item_product_fk foreign key (product_id) references products(id),
-    foreign key (order_id) references orders (id)
+    foreign key (order_id) references orders (id),
+    created_at timestamp default current_timestamp,
+    updated_at timestamp default current_timestamp
 );
 
 create table roles (
     id serial,
     name varchar(50) not null,
-    primary key (id)
+    primary key (id),
+    created_at timestamp default current_timestamp,
+    updated_at timestamp default current_timestamp
 );
 
 CREATE TABLE users_roles (
@@ -45,20 +53,24 @@ CREATE TABLE users_roles (
     role_id int not null,
     primary key (user_id, role_id),
     foreign key (user_id) references users (id),
-    foreign key (role_id) references roles (id)
+    foreign key (role_id) references roles (id),
+    created_at timestamp default current_timestamp,
+    updated_at timestamp default current_timestamp
 );
 
 insert into roles (name) values
     ('ROLE_CUSTOMER'),
     ('ROLE_ADMIN');
 
-insert into users (username, password, email) values
-    ('user', '$2y$12$OlA.qiLaFLaocQzObK2ks.IckUq.le2i76ilJl3C1EDqog1oszEGi', 'user@gmail.com'),
-    ('admin', '$2y$12$5WD4x7TKkWR740J7kkQ2uOB8B1VnWFPuHiP6JzWWBYFEx1e1sDuaO', 'admin@gmail.com');
+insert into users (username, password, email, phone) values
+    ('user1', '$2y$04$v/tR4dKWpN/bypQqcvVEE.Lw961vkUkJMN.YVfMT44RKwlOJdnHri', 'user1@gmail.com', '89161234567'),
+    ('user2', '$2y$04$v/tR4dKWpN/bypQqcvVEE.Lw961vkUkJMN.YVfMT44RKwlOJdnHri', 'user2@gmail.com', '89167654321'),
+    ('admin', '$2y$04$v/tR4dKWpN/bypQqcvVEE.Lw961vkUkJMN.YVfMT44RKwlOJdnHri', 'admin@gmail.com', '89031223344');
 
 insert into users_roles (user_id, role_id) values
     (1, 1),
-    (2, 2);
+    (2, 1),
+    (3, 2);
 
 INSERT INTO products (title, price, count) VALUES
     ('Milk',130.0,123),

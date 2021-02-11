@@ -1,0 +1,57 @@
+<html ng-app="app" lang="en" xmlns:margin="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
+    <script src="cart.js"></script>
+    <title>Cart</title>
+</head>
+
+<body>
+
+<div class="container" ng-controller="cartController">
+
+    <h1>Cart</h1>
+
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Item price</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price</th>
+            <th scope="col">Change</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="p in items.products">
+            <td>{{p.title}}</td>
+            <td>{{p.itemPrice}}</td>
+            <td>{{p.quantity}}</td>
+            <td>{{p.price}}</td>
+            <td>
+                <button type="button" class="btn btn-warning" ng-click="dec(p.id)">-</button>
+                <button type="button" class="btn btn-warning" ng-click="inc(p.id)">+</button>
+            </td>
+            <td><button type="button" class="btn btn-danger" ng-click="rm(p.id)">Remove</button></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <hr>
+    <h2>Total price: {{items.totalPrice}}</h2>
+    <br>
+
+    <button class="btn btn-danger" ng-click="clearCart()">Clear basket</button>
+    <button class="btn btn-primary" onclick="window.location.href='products-list.html'">Back to shop</button>
+
+</div>
+
+</body>
+
+</html>

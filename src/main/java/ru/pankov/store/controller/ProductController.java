@@ -17,6 +17,8 @@ public class ProductController {
 
     private final ProductService productService;
 
+    //TODO реализовать логику вывода продуктов с количеством = 0 (возможно проще на фронте, учитывая роли (для админа с 0, для остальных без))
+
     @GetMapping("/")
     public Page<ProductDTO> productList(@RequestParam MultiValueMap<String, String> params,
                                         @RequestParam(value = "page", defaultValue = "1") Integer page,

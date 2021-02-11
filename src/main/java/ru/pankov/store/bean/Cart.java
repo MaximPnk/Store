@@ -64,6 +64,8 @@ public class Cart {
     public void recalculate() {
         totalPrice = BigDecimal.ZERO;
         for (OrderItem oi : products) {
+            oi.setProduct(productService.findProductById(oi.getProduct().getId()).orElseThrow(() -> new ResourceNotFoundException("There is no product with id = " + oi.getProduct().getId())));
+            oi.recalculate();
             totalPrice = totalPrice.add(oi.getPrice());
         }
     }

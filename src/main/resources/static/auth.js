@@ -1,4 +1,4 @@
-angular.module('app', ['ngStorage']).controller('a1authController', function ($scope, $http, $localStorage) {
+angular.module('app', ['ngStorage']).controller('authController', function ($scope, $http, $localStorage) {
     const contextPath = 'http://localhost:8189/';
 
     $scope.tryToAuth = function() {
@@ -10,7 +10,7 @@ angular.module('app', ['ngStorage']).controller('a1authController', function ($s
 
                     $scope.user.username = null;
                     $scope.user.password = null;
-                    window.location = contextPath + 'a1index.html';
+                    window.location = contextPath + 'index.html';
                 }
             }, function errorCallback(response) {
                 window.alert("Error");

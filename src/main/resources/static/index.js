@@ -1,4 +1,4 @@
-angular.module('app', ['ngStorage']).controller('a1indexController', function ($scope, $http, $localStorage) {
+angular.module('app', ['ngStorage']).controller('indexController', function ($scope, $http, $localStorage) {
     const contextPath = 'http://localhost:8189/';
 
     $scope.fillProducts = function (page) {
@@ -83,7 +83,7 @@ angular.module('app', ['ngStorage']).controller('a1indexController', function ($
     }
 
     $scope.goToAuth = function () {
-        window.location = contextPath + 'a1auth.html';
+        window.location = contextPath + 'auth.html';
     }
 
     $scope.logout = function() {
@@ -92,14 +92,18 @@ angular.module('app', ['ngStorage']).controller('a1indexController', function ($
 
     $scope.goToProductForm = function (id) {
         if (id == null) {
-            window.location.href = contextPath + 'a1product-form.html';
+            window.location.href = contextPath + 'product-form.html';
         } else {
-            window.location.href = contextPath + 'a1product-form.html?id=' + id;
+            window.location.href = contextPath + 'product-form.html?id=' + id;
         }
     }
 
     $scope.goToCart = function () {
-        window.location = contextPath + 'a1cart.html';
+        window.location = contextPath + 'cart.html';
+    }
+
+    $scope.goToHistory = function () {
+        window.location = contextPath + 'history.html';
     }
 
     $scope.deleteProduct = function (id) {

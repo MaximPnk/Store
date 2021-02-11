@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -22,11 +23,19 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(name = "price")
+    private BigDecimal price;
+
     @Column(name = "created_at")
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    public Order(User user) {
+    @Column(name = "updated_at")
+    @CreationTimestamp
+    private LocalDateTime updatedAt;
+
+    public Order(User user, BigDecimal price) {
         this.user = user;
+        this.price = price;
     }
 }
