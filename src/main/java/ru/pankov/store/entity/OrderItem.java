@@ -2,9 +2,11 @@ package ru.pankov.store.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -34,11 +36,24 @@ public class OrderItem {
     @JoinColumn(name = "order_id")
     private Order order;
 
+    @Column(name = "created_at")
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    @CreationTimestamp
+    private LocalDateTime updated_at;
+
     public OrderItem(Product product) {
         this.product = product;
         this.quantity = 1;
         this.itemPrice = product.getPrice();
         this.price = this.itemPrice.multiply(BigDecimal.valueOf(this.quantity));
+    }
+
+    public void recalculate() {
+        itemPrice = product.getPrice();
+        price = itemPrice.multiply(BigDecimal.valueOf(quantity));
     }
 
     public void incrementQuantity() {

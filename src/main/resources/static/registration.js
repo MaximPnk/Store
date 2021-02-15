@@ -1,32 +1,18 @@
-angular.module('app', ['ngStorage']).controller('productFormController', function ($scope, $http, $localStorage) {
+angular.module('app', ['ngStorage']).controller('registrationController', function ($scope, $http, $localStorage) {
     const contextPath = 'http://localhost:8189/';
 
-    //TODO кидает кривую страницу неавторизованным
-
-    if (document.URL.match(".*id=[0-9]+$")) {
-        $scope.id = document.URL.split("id=")[1];
-    }
-
-    $scope.fillForm = function() {
-        if ($scope.id != null) {
-            $http.get(contextPath + 'api/v1/products/' + $scope.id)
-                .then(function (response) {
-                    $scope.productInForm = response.data;
+    $scope.registerUser = function () {
+        console.log(1);
+        if ($scope.newUser.password !== $scope.pwConfirm) {
+            $scope.pwMatch = true;
+        } else {
+            $http.post(contextPath + 'registration/', $scope.newUser)
+                .then(function successCallback() {
+                    $scope.registered = true;
+                }, function errorCallback(response) {
+                    alert(response.data.message);
                 });
         }
-    }
-
-    $scope.createOrUpdate = function () {
-        if ($scope.id == null) {
-            $http.post(contextPath + 'api/v1/products/', $scope.productInForm)
-        } else {
-            $http.put(contextPath + 'api/v1/products/', $scope.productInForm)
-        }
-        $scope.goToShop();
-    }
-
-    $scope.goToShop = function () {
-        window.location = contextPath + 'index.html';
     }
 
     $scope.decodeToken = function(token) {
@@ -40,7 +26,6 @@ angular.module('app', ['ngStorage']).controller('productFormController', functio
         $scope.username = token.sub;
         $scope.isAdmin = token.roles.includes("ROLE_ADMIN");
         $scope.isCustomer = token.roles.includes("ROLE_CUSTOMER");
-        $scope.fillForm();
     }
 
     $scope.clearUserData = function() {
@@ -49,8 +34,9 @@ angular.module('app', ['ngStorage']).controller('productFormController', functio
         $scope.username = null;
         $scope.isAdmin = false;
         $scope.isCustomer = false;
-        $scope.selectedOption = 5;
-        $scope.updatePageLimit();
+        $scope.registered = false;
+        $scope.pwMatch = false;
+        $scope.newUser = null;
     }
 
     if ($localStorage.shopToken) {
@@ -69,12 +55,7 @@ angular.module('app', ['ngStorage']).controller('productFormController', functio
         window.location = contextPath + 'auth.html';
     }
 
-    $scope.goToReg = function () {
-        window.location = contextPath + 'registration.html';
+    $scope.goToShop = function () {
+        window.location = contextPath + 'index.html';
     }
-
-    $scope.logout = function() {
-        $scope.clearUserData();
-    }
-
 });

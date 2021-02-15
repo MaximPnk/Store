@@ -5,13 +5,19 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.pankov.store.dao.RoleRepository;
 import ru.pankov.store.dao.UserRepository;
+import ru.pankov.store.dto.UserDTO;
 import ru.pankov.store.entity.Role;
 import ru.pankov.store.entity.User;
+import ru.pankov.store.err.ResourceNotFoundException;
+import ru.pankov.store.service.inter.RoleService;
 import ru.pankov.store.service.inter.UserService;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,10 +26,17 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
+    private final RoleService roleService;
 
     @Override
     public Optional<User> findByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public Optional<User> findDuplicate(String username, String email, String phone) {
+        return userRepository.findByUsernameOrEmailOrPhone(username, email, phone);
     }
 
     @Override
@@ -39,12 +52,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findById(Long id) {
-        return userRepository.findById(id);
+    @Transactional
+    public void save(UserDTO userDTO) {
+        userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        Role role = roleService.findByName("ROLE_CUSTOMER").orElseThrow(() -> new ResourceNotFoundException("Role not found"));
+        User user = new User(userDTO);
+        userRepository.save(user);
+        role.getUsers().add(user);
     }
 
-    @Override
-    public void saveOrUpdate(User user) {
-        userRepository.save(user);
-    }
 }

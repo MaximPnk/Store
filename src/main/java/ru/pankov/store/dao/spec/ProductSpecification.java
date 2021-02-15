@@ -1,10 +1,12 @@
 package ru.pankov.store.dao.spec;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.MultiValueMap;
 import ru.pankov.store.entity.Product;
 
 import java.math.BigDecimal;
+import java.util.Locale;
 
 public class ProductSpecification {
 
@@ -16,9 +18,12 @@ public class ProductSpecification {
         return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.lessThanOrEqualTo(root.get("price"), max);
     }
 
-    //TODO root.get to lower case
     private static Specification<Product> titleLike(String titlePart) {
-        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(root.get("title"), String.format("%%%s%%", titlePart));
+        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(criteriaBuilder.lower(root.get("title")), String.format("%%%s%%", titlePart.toLowerCase(Locale.ROOT)));
+    }
+
+    private static Specification<Product> countGreaterThan() {
+        return (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.greaterThan(root.get("count"), 0);
     }
 
     public static Specification<Product> build(MultiValueMap<String, String> params) {
@@ -31,6 +36,9 @@ public class ProductSpecification {
         }
         if (params.containsKey("title") && !params.getFirst("title").isEmpty()) {
             spec = spec.and(ProductSpecification.titleLike(params.getFirst("title")));
+        }
+        if (params.containsKey("present") && !params.getFirst("present").isEmpty() && params.getFirst("present").equals("true")) {
+            spec = spec.and(ProductSpecification.countGreaterThan());
         }
         return spec;
     }

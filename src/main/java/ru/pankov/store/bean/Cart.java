@@ -22,6 +22,8 @@ import java.util.List;
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class Cart {
 
+    //TODO решить проблему с коризной (бд, куки, редис)
+
     private final ProductService productService;
     private List<OrderItem> products;
     private BigDecimal totalPrice;
@@ -64,6 +66,8 @@ public class Cart {
     public void recalculate() {
         totalPrice = BigDecimal.ZERO;
         for (OrderItem oi : products) {
+            oi.setProduct(productService.findProductById(oi.getProduct().getId()).orElseThrow(() -> new ResourceNotFoundException("There is no product with id = " + oi.getProduct().getId())));
+            oi.recalculate();
             totalPrice = totalPrice.add(oi.getPrice());
         }
     }

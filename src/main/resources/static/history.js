@@ -1,32 +1,24 @@
-angular.module('app', ['ngStorage']).controller('productFormController', function ($scope, $http, $localStorage) {
+angular.module('app', ['ngStorage']).controller('historyController', function ($scope, $http, $localStorage) {
     const contextPath = 'http://localhost:8189/';
 
-    //TODO кидает кривую страницу неавторизованным
+    $scope.date1 = '2021-02-11T14:53:06.656';
 
-    if (document.URL.match(".*id=[0-9]+$")) {
-        $scope.id = document.URL.split("id=")[1];
+    $scope.formatDate = function(date){
+        return new Date(date);
+    };
+
+    $scope.fillHistoryForCustomer = function () {
+        $http.get(contextPath + 'api/v1/order/curr')
+            .then(function (response) {
+                $scope.customerHistory = response.data;
+        });
     }
 
-    $scope.fillForm = function() {
-        if ($scope.id != null) {
-            $http.get(contextPath + 'api/v1/products/' + $scope.id)
-                .then(function (response) {
-                    $scope.productInForm = response.data;
-                });
-        }
-    }
-
-    $scope.createOrUpdate = function () {
-        if ($scope.id == null) {
-            $http.post(contextPath + 'api/v1/products/', $scope.productInForm)
-        } else {
-            $http.put(contextPath + 'api/v1/products/', $scope.productInForm)
-        }
-        $scope.goToShop();
-    }
-
-    $scope.goToShop = function () {
-        window.location = contextPath + 'index.html';
+    $scope.fillHistoryForAdmin = function () {
+        $http.get(contextPath + 'api/v1/order/')
+            .then(function (response) {
+                $scope.history = response.data;
+            });
     }
 
     $scope.decodeToken = function(token) {
@@ -40,7 +32,11 @@ angular.module('app', ['ngStorage']).controller('productFormController', functio
         $scope.username = token.sub;
         $scope.isAdmin = token.roles.includes("ROLE_ADMIN");
         $scope.isCustomer = token.roles.includes("ROLE_CUSTOMER");
-        $scope.fillForm();
+        if ($scope.isCustomer) {
+            $scope.fillHistoryForCustomer();
+        } else if ($scope.isAdmin) {
+            $scope.fillHistoryForAdmin();
+        }
     }
 
     $scope.clearUserData = function() {
@@ -49,11 +45,11 @@ angular.module('app', ['ngStorage']).controller('productFormController', functio
         $scope.username = null;
         $scope.isAdmin = false;
         $scope.isCustomer = false;
-        $scope.selectedOption = 5;
-        $scope.updatePageLimit();
     }
 
     if ($localStorage.shopToken) {
+        $scope.customerHistory = null;
+        $scope.history = null;
         $scope.decodedShopToken = $scope.decodeToken($localStorage.shopToken);
         if ($scope.decodedShopToken.exp <= (new Date().getTime() / 1000)) {
             $scope.clearUserData();
@@ -66,7 +62,15 @@ angular.module('app', ['ngStorage']).controller('productFormController', functio
     }
 
     $scope.goToAuth = function () {
-        window.location = contextPath + 'auth.html';
+        window.location.href = contextPath + 'auth.html';
+    }
+
+    $scope.goToShop = function () {
+        window.location.href = contextPath + 'index.html';
+    }
+
+    $scope.goToCart = function () {
+        window.location = contextPath + 'cart.html';
     }
 
     $scope.goToReg = function () {

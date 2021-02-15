@@ -1,4 +1,4 @@
-package ru.pankov.store.controller;
+package ru.pankov.store.controller.test;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

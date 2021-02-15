@@ -1,49 +1,46 @@
 package ru.pankov.store.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.pankov.store.bean.Cart;
-import ru.pankov.store.entity.Order;
-import ru.pankov.store.entity.OrderItem;
+import org.springframework.web.bind.annotation.RestController;
+import ru.pankov.store.dto.OrderDTOForAdmins;
+import ru.pankov.store.dto.OrderDTOForCustomers;
 import ru.pankov.store.entity.User;
-import ru.pankov.store.service.inter.OrderItemService;
+import ru.pankov.store.err.ResourceNotFoundException;
 import ru.pankov.store.service.inter.OrderService;
-import ru.pankov.store.service.inter.ProductService;
 import ru.pankov.store.service.inter.UserService;
 
 import java.security.Principal;
+import java.util.List;
 
-@Controller
-@RequestMapping("/order")
+@RestController
+@RequestMapping("/api/v1/order")
 @RequiredArgsConstructor
 public class OrderController {
 
     private final UserService userService;
     private final OrderService orderService;
-    private final Cart cart;
-    private final OrderItemService orderItemService;
-    private final ProductService productService;
 
-    //TODO на бэке работает, но фронт после makeOrder() не ждёт .then и обновляет страницу до изменений (???)
-
-    //TODO проверить корректность работы корзины в сессиях между юзерами
+    @GetMapping("/curr")
+    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
+    public List<OrderDTOForCustomers> getOrdersByUser(Principal principal) {
+        User user = userService.findByUsername(principal.getName()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        return orderService.findAllByUser(user);
+    }
 
     @GetMapping("/")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public List<OrderDTOForAdmins> getOrdersByUser() {
+        return orderService.findAll();
+    }
+
+    @PostMapping("/")
+    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     public void makeOrder(Principal principal) {
-        User user = userService.findByUsername(principal.getName()).get();
-        Order order = new Order(user);
-        orderService.saveOrUpdate(order);
-
-        for (OrderItem oi : cart.getProducts()) {
-            oi.setPrice(oi.getProduct().getPrice());
-            oi.setOrder(order);
-            oi.getProduct().setCount(oi.getProduct().getCount() - oi.getQuantity());
-            orderItemService.saveOrUpdate(oi);
-            productService.save(oi.getProduct());
-        }
-
-        cart.clear();
+        User user = userService.findByUsername(principal.getName()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        orderService.makeOrder(user);
     }
 }
