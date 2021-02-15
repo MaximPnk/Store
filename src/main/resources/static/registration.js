@@ -2,7 +2,6 @@ angular.module('app', ['ngStorage']).controller('registrationController', functi
     const contextPath = 'http://localhost:8189/';
 
     $scope.registerUser = function () {
-        console.log(1);
         if ($scope.newUser.password !== $scope.pwConfirm) {
             $scope.pwMatch = true;
         } else {
@@ -10,7 +9,13 @@ angular.module('app', ['ngStorage']).controller('registrationController', functi
                 .then(function successCallback() {
                     $scope.registered = true;
                 }, function errorCallback(response) {
-                    alert(response.data.message);
+                    if (response.data.message) {
+                        alert(response.data.message);
+                    } else if (response.data.messages) {
+                        for (let e in response.data.messages) {
+                            alert(response.data.messages[e]);
+                        }
+                    }
                 });
         }
     }

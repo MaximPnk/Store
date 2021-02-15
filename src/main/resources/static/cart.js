@@ -50,7 +50,6 @@ angular.module('app', ['ngStorage']).controller('cartController', function ($sco
                 $scope.goToShop();
             }, function errorCallback(response) {
                 alert(response.data.message);
-                console.log(response);
             });
     }
 

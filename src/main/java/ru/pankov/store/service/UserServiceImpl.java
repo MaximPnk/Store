@@ -8,7 +8,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.pankov.store.dao.RoleRepository;
 import ru.pankov.store.dao.UserRepository;
 import ru.pankov.store.dto.UserDTO;
 import ru.pankov.store.entity.Role;
@@ -17,7 +16,9 @@ import ru.pankov.store.err.ResourceNotFoundException;
 import ru.pankov.store.service.inter.RoleService;
 import ru.pankov.store.service.inter.UserService;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,6 +29,12 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final RoleService roleService;
+    private Role customerRole;
+
+    @PostConstruct
+    public void init() {
+        customerRole = roleService.findByName("ROLE_CUSTOMER").orElseThrow(() -> new ResourceNotFoundException("Role not found"));
+    }
 
     @Override
     public Optional<User> findByUsername(String username) {
@@ -55,10 +62,8 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void save(UserDTO userDTO) {
         userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-        Role role = roleService.findByName("ROLE_CUSTOMER").orElseThrow(() -> new ResourceNotFoundException("Role not found"));
-        User user = new User(userDTO);
-        userRepository.save(user);
-        role.getUsers().add(user);
+        User user = userRepository.save(new User(userDTO));
+        user.setRoles(new ArrayList<>(Arrays.asList(customerRole)));
     }
 
 }
