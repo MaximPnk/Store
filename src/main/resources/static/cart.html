@@ -21,11 +21,11 @@
                 <td>{{p.quantity}}</td>
                 <td>{{p.price}}</td>
                 <td>
-                    <button type="button" class="btn btn-warning" ng-click="dec(p.id)">-</button>
-                    <button type="button" class="btn btn-warning" ng-click="inc(p.id)">+</button>
+                    <button type="button" ng-disabled="confirm" class="btn btn-warning" ng-click="dec(p.id)">-</button>
+                    <button type="button" ng-disabled="confirm" class="btn btn-warning" ng-click="inc(p.id)">+</button>
                 </td>
                 <td>
-                    <button type="button" class="btn btn-danger" ng-click="rm(p.id)">Remove</button>
+                    <button type="button" ng-disabled="confirm" class="btn btn-danger" ng-click="rm(p.id)">Remove</button>
                 </td>
             </tr>
             </tbody>
@@ -35,8 +35,18 @@
         <h2 ng-show="items.products.length > 0">Total price: {{items.totalPrice}}</h2>
         <br>
 
-        <button class="btn btn-success" ng-show="items.products.length > 0" ng-click="makeOrder()">Make order</button>
-        <button class="btn btn-danger" ng-show="items.products.length > 0" ng-click="clearCart()">Clear basket</button>
+        <button class="btn btn-success" ng-show="items.products.length > 0 && !confirm" ng-click="confirmOrder()">Confirm order</button>
+        <button class="btn btn-danger" ng-show="items.products.length > 0 && !confirm" ng-click="clearCart()">Clear basket</button>
+
+        <form id="filterProducts" novalidate class="form-inline" ng-show="confirm" ng-submit="makeOrder()">
+            <div class="form-group mx-sm-3 mb-2">
+                <label for="address" class="sr-only">Address</label>
+                <input style="min-width: 500px" class="form-control" type="text" ng-model="address" id="address" placeholder="Address">
+                <button class="btn btn-success" style="margin-left: 5px" type="submit">Make order</button>
+                <button class="btn btn-danger" style="margin-left: 5px" type="reset" ng-click="cancelConfirmation()">Cancel</button>
+            </div>
+        </form>
+
     </div>
 
 </div>

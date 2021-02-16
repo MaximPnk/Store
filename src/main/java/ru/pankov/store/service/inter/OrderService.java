@@ -15,5 +15,5 @@ public interface OrderService {
 
     void saveOrUpdate(Order order);
 
-    void makeOrder(User user);
+    void makeOrder(User user, String address);
 }

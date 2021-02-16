@@ -22,6 +22,7 @@ create table orders (
     id bigserial not null primary key,
     user_id bigint not null,
     price float not null,
+    address text not null,
     created_at timestamp default current_timestamp,
     updated_at timestamp default current_timestamp,
     foreign key (user_id) references users (id)

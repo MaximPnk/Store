@@ -2,10 +2,7 @@ package ru.pankov.store.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.pankov.store.dto.OrderDTO;
 import ru.pankov.store.entity.User;
 import ru.pankov.store.err.ResourceNotFoundException;
@@ -38,8 +35,8 @@ public class OrderController {
 
     @PostMapping("/")
     @PreAuthorize("hasRole('ROLE_CUSTOMER')")
-    public void makeOrder(Principal principal) {
+    public void makeOrder(Principal principal, @RequestBody String address) {
         User user = userService.findByUsername(principal.getName()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        orderService.makeOrder(user);
+        orderService.makeOrder(user, address);
     }
 }

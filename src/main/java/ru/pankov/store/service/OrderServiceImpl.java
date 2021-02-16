@@ -34,7 +34,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderDTO> findAllForCustomers(User user) {
-        return orderRepository.findAllByUser(user).stream().map(u -> new OrderDTO(u.getId(), u.getCreatedAt(), u.getPrice())).collect(Collectors.toList());
+        return orderRepository.findAllByUser(user).stream().map(u -> new OrderDTO(u.getId(), u.getCreatedAt(), u.getPrice(), u.getAddress())).collect(Collectors.toList());
     }
 
     @Override
@@ -44,7 +44,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Transactional
     @Override
-    public void makeOrder(User user) {
+    public void makeOrder(User user, String address) {
         if (cart.getProducts().size() > 0) {
             cart.recalculate();
             Optional<OrderItem> orderItem = cart.getProducts().stream().filter(oi -> oi.getQuantity() > oi.getProduct().getCount()).findFirst();
@@ -53,7 +53,7 @@ public class OrderServiceImpl implements OrderService {
                         "Insufficient number of " + orderItem.get().getProduct().getTitle() + ". Maximum is " + orderItem.get().getProduct().getCount());
             }
 
-            Order order = new Order(user, cart.getTotalPrice());
+            Order order = new Order(user, cart.getTotalPrice(), address);
             saveOrUpdate(order);
 
             for (OrderItem oi : cart.getProducts()) {

@@ -39,12 +39,23 @@ app.controller('cartController', function ($scope, $http, $rootScope) {
     };
 
     $scope.makeOrder = function () {
-        $http.post(contextPath + 'api/v1/order/')
+        console.log($scope.address);
+        $http.post(contextPath + 'api/v1/order/', $scope.address)
             .then(function successCallback() {
                 window.location = contextPath + '#!/shop'
             }, function errorCallback(response) {
                 alert(response.data.message);
             });
+    }
+
+    $scope.confirm = false;
+
+    $scope.confirmOrder = function () {
+        $scope.confirm = true;
+    }
+
+    $scope.cancelConfirmation = function () {
+        $scope.confirm = false;
     }
 
 });

@@ -17,6 +17,7 @@ public class OrderDTO {
     private String userPhone;
     private LocalDateTime createdAt;
     private BigDecimal price;
+    private String address;
 
     public OrderDTO(Order order) {
         this.id = order.getId();
@@ -26,11 +27,13 @@ public class OrderDTO {
         this.userPhone = order.getUser().getPhone();
         this.createdAt = order.getCreatedAt();
         this.price = order.getPrice();
+        this.address = order.getAddress();
     }
 
-    public OrderDTO(long id, LocalDateTime createdAt, BigDecimal price) {
+    public OrderDTO(long id, LocalDateTime createdAt, BigDecimal price, String address) {
         this.id = id;
         this.createdAt = createdAt;
         this.price = price;
+        this.address = address;
     }
 }

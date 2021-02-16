@@ -34,8 +34,12 @@ public class Order {
     @CreationTimestamp
     private LocalDateTime updatedAt;
 
-    public Order(User user, BigDecimal price) {
+    @Column(name = "address")
+    private String address;
+
+    public Order(User user, BigDecimal price, String address) {
         this.user = user;
         this.price = price;
+        this.address = address;
     }
 }

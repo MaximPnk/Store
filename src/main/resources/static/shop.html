@@ -49,7 +49,7 @@
                 <td>{{p.price}}</td>
                 <td>{{p.count}}</td>
                 <td>
-                    <button ng-class="p.count > 0 ? 'btn btn-success' : 'btn btn-success disabled'" ng-show="isCustomer" ng-click="addToCart(p.id)">Add to cart</button>
+                    <button ng-disabled="p.count <= 0" class="btn btn-success" ng-show="isCustomer" ng-click="addToCart(p.id)">Add to cart</button>
                     <button class="btn btn-warning" ng-show="isAdmin" ng-click="goToProductForm(p.id)">Update product</button>
                     <button class="btn btn-dark" ng-show="isAdmin" ng-click="deleteProduct(p.id)">Delete product</button>
                 </td>
