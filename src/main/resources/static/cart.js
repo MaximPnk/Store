@@ -4,7 +4,6 @@ app.controller('cartController', function ($scope, $http, $rootScope) {
     $scope.fillCart = function() {
         $http.get(contextPath + 'api/v1/cart/')
             .then(function (response) {
-                console.log(response.data);
                 $scope.items = response.data;
             });
     };

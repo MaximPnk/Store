@@ -42,6 +42,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Optional<UserDTO> findUserDTOByUsername(String username) {
+        return userRepository.findByUsername(username).map(UserDTO::new);
+    }
+
+    @Override
     public Optional<User> findDuplicate(String username, String email, String phone) {
         return userRepository.findByUsernameOrEmailOrPhone(username, email, phone);
     }

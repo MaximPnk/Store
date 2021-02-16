@@ -6,8 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.pankov.store.dto.OrderDTOForAdmins;
-import ru.pankov.store.dto.OrderDTOForCustomers;
+import ru.pankov.store.dto.OrderDTO;
 import ru.pankov.store.entity.User;
 import ru.pankov.store.err.ResourceNotFoundException;
 import ru.pankov.store.service.inter.OrderService;
@@ -26,15 +25,15 @@ public class OrderController {
 
     @GetMapping("/curr")
     @PreAuthorize("hasRole('ROLE_CUSTOMER')")
-    public List<OrderDTOForCustomers> getOrdersByUser(Principal principal) {
+    public List<OrderDTO> getOrdersByUser(Principal principal) {
         User user = userService.findByUsername(principal.getName()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        return orderService.findAllByUser(user);
+        return orderService.findAllForCustomers(user);
     }
 
     @GetMapping("/")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public List<OrderDTOForAdmins> getOrdersByUser() {
-        return orderService.findAll();
+    public List<OrderDTO> getOrdersByUser() {
+        return orderService.findAllForAdmins();
     }
 
     @PostMapping("/")

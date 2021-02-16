@@ -9,7 +9,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular-route.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.11/ngStorage.min.js"></script>
-    <title>Main Page</title>
+    <title>Shop</title>
 </head>
 
 <body>
@@ -17,8 +17,15 @@
 <div class="container">
     <div ng-controller="indexController">
         <nav class="navbar navbar-expand-lg navbar-light bg-warning">
+            <a class="navbar-brand">Pankov shop</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#!/home">Home</a>
+                    </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="#!/shop">Shop</a>
                     </li>
@@ -27,6 +34,9 @@
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" ng-show="authorized" href="#!/history">History</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" ng-show="authorized" href="#!/user">User info</a>
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" ng-show="isAdmin" href="#!/product-form">Add new product</a>
@@ -38,16 +48,18 @@
                         <a class="nav-link" ng-show="!authorized" href="#!/registration">Registration</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" ng-show="authorized" ng-click="clearUserData()">Logout</a>
+                        <a class="nav-link" ng-show="authorized" href="#!/shop" ng-click="clearUserData()">Logout</a>
                     </li>
                 </ul>
             </div>
         </nav>
     </div>
 
+    <br>
     <ng-view></ng-view>
 
     <script src="app-route.js"></script>
+    <script src="home.js"></script>
     <script src="index.js"></script>
     <script src="shop.js"></script>
     <script src="auth.js"></script>
@@ -55,6 +67,7 @@
     <script src="history.js"></script>
     <script src="product-form.js"></script>
     <script src="registration.js"></script>
+    <script src="user.js"></script>
 
 </div>
 

@@ -13,6 +13,8 @@ public interface UserService extends UserDetailsService {
 
     Optional<User> findByUsername(String username);
 
+    Optional<UserDTO> findUserDTOByUsername(String username);
+
     Optional<User> findDuplicate(String username, String email, String phone);
 
     Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles);

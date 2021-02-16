@@ -15,7 +15,6 @@ app.controller('shopController', function ($scope, $http) {
                 limit: $scope.limitPage ? $scope.limitPage : 5
             }
         }).then(function (response) {
-            console.log(response.data);
             $scope.productsPage = response.data;
             $scope.paginationArray = $scope.generatePageIndexes(1, $scope.productsPage.totalPages);
         });

@@ -9,22 +9,28 @@ import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Data
-public class OrderDTOForAdmins {
+public class OrderDTO {
     private long id;
     private long userId;
     private String userName;
     private String userEmail;
     private String userPhone;
-    private LocalDateTime updatedAt;
+    private LocalDateTime createdAt;
     private BigDecimal price;
 
-    public OrderDTOForAdmins(Order order) {
+    public OrderDTO(Order order) {
         this.id = order.getId();
         this.userId = order.getUser().getId();
         this.userName = order.getUser().getUsername();
         this.userEmail = order.getUser().getEmail();
         this.userPhone = order.getUser().getPhone();
-        this.updatedAt = order.getUpdatedAt();
+        this.createdAt = order.getCreatedAt();
         this.price = order.getPrice();
+    }
+
+    public OrderDTO(long id, LocalDateTime createdAt, BigDecimal price) {
+        this.id = id;
+        this.createdAt = createdAt;
+        this.price = price;
     }
 }

@@ -2,9 +2,11 @@ package ru.pankov.store.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.pankov.store.entity.User;
 
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -24,10 +26,12 @@ public class UserDTO {
     @Pattern(regexp = "(\\+7|8)+[0-9]{10}", message = "Phone: format +79001234567 / 89001234567")
     private String phone;
 
-    public UserDTO(String username, String password, String email, String phone) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.phone = phone;
+    private LocalDateTime createdAt;
+
+    public UserDTO(User user) {
+        this.username = user.getUsername();
+        this.email = user.getEmail();
+        this.phone = user.getPhone();
+        this.createdAt = user.getCreatedAt();
     }
 }

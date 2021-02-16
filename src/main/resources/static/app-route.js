@@ -1,6 +1,10 @@
 var app = angular.module('app', ['ngRoute', 'ngStorage'])
     .config(function ($routeProvider) {
         $routeProvider
+            .when('/home', {
+                templateUrl: 'home.html',
+                controller: 'homeController'
+            })
             .when('/auth', {
                 templateUrl: 'auth.html',
                 controller: 'authController'
@@ -24,6 +28,10 @@ var app = angular.module('app', ['ngRoute', 'ngStorage'])
             .when('/shop', {
                 templateUrl: 'shop.html',
                 controller: 'shopController'
+            })
+            .when('/user', {
+                templateUrl: 'user.html',
+                controller: 'userController'
             })
             .otherwise({
                 redirectTo: '/'

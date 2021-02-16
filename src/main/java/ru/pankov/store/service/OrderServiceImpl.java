@@ -4,8 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.pankov.store.bean.Cart;
 import ru.pankov.store.dao.OrderRepository;
-import ru.pankov.store.dto.OrderDTOForAdmins;
-import ru.pankov.store.dto.OrderDTOForCustomers;
+import ru.pankov.store.dto.OrderDTO;
 import ru.pankov.store.entity.Order;
 import ru.pankov.store.entity.OrderItem;
 import ru.pankov.store.entity.User;
@@ -29,8 +28,13 @@ public class OrderServiceImpl implements OrderService {
     private final ProductService productService;
 
     @Override
-    public List<OrderDTOForAdmins> findAll() {
-        return orderRepository.findAll().stream().map(OrderDTOForAdmins::new).collect(Collectors.toList());
+    public List<OrderDTO> findAllForAdmins() {
+        return orderRepository.findAll().stream().map(OrderDTO::new).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<OrderDTO> findAllForCustomers(User user) {
+        return orderRepository.findAllByUser(user).stream().map(u -> new OrderDTO(u.getId(), u.getCreatedAt(), u.getPrice())).collect(Collectors.toList());
     }
 
     @Override
@@ -61,11 +65,5 @@ public class OrderServiceImpl implements OrderService {
 
             cart.clear();
         }
-    }
-
-    @Override
-    public List<OrderDTOForCustomers> findAllByUser(User user) {
-        return orderRepository.findAllByUser(user).stream().map(OrderDTOForCustomers::new).collect(Collectors.toList());
-
     }
 }

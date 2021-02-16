@@ -1,6 +1,10 @@
 <div class="container">
 
+    <h1>Orders history</h1>
+    <hr>
+
     <div ng-show="isCustomer">
+
         <table class="table">
             <thead class="thead-dark">
             <tr>
@@ -12,7 +16,7 @@
             <tbody>
             <tr ng-repeat="h in customerHistory">
                 <th scope="row">{{h.id}}</th>
-                <td ng-bind="formatDate(h.updatedAt) | date:'dd.MM.yyyy HH:mm'"></td>
+                <td ng-bind="formatDate(h.createdAt) | date:'dd.MM.yyyy HH:mm'"></td>
                 <td>{{h.price}}</td>
             </tr>
             </tbody>
@@ -39,7 +43,7 @@
                 <td>{{h.userName}}</td>
                 <td>{{h.userEmail}}</td>
                 <td>{{h.userPhone}}</td>
-                <td ng-bind="formatDate(h.updatedAt) | date:'dd.MM.yyyy HH:mm'"></td>
+                <td ng-bind="formatDate(h.createdAt) | date:'dd.MM.yyyy HH:mm'"></td>
                 <td>{{h.price}}</td>
             </tr>
             </tbody>
