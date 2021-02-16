@@ -5,10 +5,6 @@ var app = angular.module('app', ['ngRoute', 'ngStorage'])
                 templateUrl: 'home.html',
                 controller: 'homeController'
             })
-            .when('/auth', {
-                templateUrl: 'auth.html',
-                controller: 'authController'
-            })
             .when('/cart', {
                 templateUrl: 'cart.html',
                 controller: 'cartController'
@@ -34,6 +30,6 @@ var app = angular.module('app', ['ngRoute', 'ngStorage'])
                 controller: 'userController'
             })
             .otherwise({
-                redirectTo: '/'
+                redirectTo: '/home'
         });
     });

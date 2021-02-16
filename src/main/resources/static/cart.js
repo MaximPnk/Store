@@ -39,7 +39,6 @@ app.controller('cartController', function ($scope, $http, $rootScope) {
     };
 
     $scope.makeOrder = function () {
-        console.log($scope.address);
         $http.post(contextPath + 'api/v1/order/', $scope.address)
             .then(function successCallback() {
                 window.location = contextPath + '#!/shop'

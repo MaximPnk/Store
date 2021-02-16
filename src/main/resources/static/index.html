@@ -9,6 +9,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular-route.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.11/ngStorage.min.js"></script>
+    <style type="text/css">
+        .navbar-nav > li > a:hover{
+            font-weight: bold;
+        }
+    </style>
     <title>Shop</title>
 </head>
 
@@ -17,7 +22,10 @@
 <div class="container">
     <div ng-controller="indexController">
         <nav class="navbar navbar-expand-lg navbar-light bg-warning">
-            <a class="navbar-brand">Pankov shop</a>
+            <a class="navbar-brand">
+                <img src="/img/shop-icon.png" width="30" height="30" class="d-inline-block align-top" alt="">
+                Pankov shop
+            </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -41,14 +49,22 @@
                     <li class="nav-item active">
                         <a class="nav-link" ng-show="isAdmin" href="#!/product-form">Add new product</a>
                     </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <form class="form-inline my-2 my-lg-0" ng-submit="tryToAuth()" ng-show="!authorized">
+                        <input style="max-width: 150px" class="form-control mr-sm-2" ng-model="user.username" type="text" placeholder="Login" aria-label="Search">
+                        <input style="max-width: 150px" class="form-control mr-sm-2" ng-model="user.password" type="password" placeholder="Password" aria-label="Search">
+                        <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Log in</button>
+                    </form>
                     <li class="nav-item active">
-                        <a class="nav-link" ng-show="!authorized" href="#!/auth">Auth</a>
+                        <a class="nav-link" ng-show="!authorized" href="#!/registration">
+                            <button class="btn btn-outline-dark my-2 my-sm-0">Registration</button>
+                        </a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" ng-show="!authorized" href="#!/registration">Registration</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" ng-show="authorized" href="#!/shop" ng-click="clearUserData()">Logout</a>
+                        <a ng-show="authorized" href="#!/shop">
+                            <button class="btn btn-outline-dark my-2 my-sm-0" ng-click="clearUserData()">Logout</button>
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -62,7 +78,6 @@
     <script src="home.js"></script>
     <script src="index.js"></script>
     <script src="shop.js"></script>
-    <script src="auth.js"></script>
     <script src="cart.js"></script>
     <script src="history.js"></script>
     <script src="product-form.js"></script>

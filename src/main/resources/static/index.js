@@ -38,4 +38,21 @@ app.controller('indexController', function ($scope, $http, $localStorage, $rootS
 
     $rootScope.checkAuth();
 
+    $scope.tryToAuth = function() {
+        $http.post(contextPath + 'auth/', $scope.user)
+            .then(function successCallback(response) {
+                if (response.data.token) {
+                    $http.defaults.headers.common.Authorization = 'Bearer ' + response.data.token;
+                    $localStorage.shopToken = response.data.token;
+
+                    $scope.user.username = null;
+                    $scope.user.password = null;
+
+                    $rootScope.checkAuth();
+                }
+            }, function errorCallback(response) {
+                window.alert(response.data.message);
+            });
+    }
+
 });
