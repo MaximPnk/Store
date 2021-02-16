@@ -6,6 +6,7 @@ import ru.pankov.store.entity.Order;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 @NoArgsConstructor
 @Data
@@ -18,6 +19,7 @@ public class OrderDTO {
     private LocalDateTime createdAt;
     private BigDecimal price;
     private String address;
+    private Collection<OrderItemDTO> orderItems;
 
     public OrderDTO(Order order) {
         this.id = order.getId();
@@ -35,5 +37,13 @@ public class OrderDTO {
         this.createdAt = createdAt;
         this.price = price;
         this.address = address;
+    }
+
+    public OrderDTO(long id, LocalDateTime createdAt, BigDecimal price, String address, Collection<OrderItemDTO> orderItems) {
+        this.id = id;
+        this.createdAt = createdAt;
+        this.price = price;
+        this.address = address;
+        this.orderItems = orderItems;
     }
 }

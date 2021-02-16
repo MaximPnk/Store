@@ -1,5 +1,5 @@
 var app = angular.module('app', ['ngRoute', 'ngStorage'])
-    .config(function ($routeProvider) {
+    .config(function ($routeProvider, $locationProvider) {
         $routeProvider
             .when('/home', {
                 templateUrl: 'home.html',
@@ -28,6 +28,10 @@ var app = angular.module('app', ['ngRoute', 'ngStorage'])
             .when('/user', {
                 templateUrl: 'user.html',
                 controller: 'userController'
+            })
+            .when('/order/:id', {
+                templateUrl: 'order.html',
+                controller: 'orderController'
             })
             .otherwise({
                 redirectTo: '/home'

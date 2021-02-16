@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 @Data
 @NoArgsConstructor
@@ -36,6 +37,9 @@ public class Order {
 
     @Column(name = "address")
     private String address;
+
+    @OneToMany(mappedBy = "order")
+    private Collection<OrderItem> orderItem;
 
     public Order(User user, BigDecimal price, String address) {
         this.user = user;

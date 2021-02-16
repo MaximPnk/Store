@@ -1,0 +1,52 @@
+<div class="container">
+
+    <div ng-show="authorized">
+
+        <h1>Order info:</h1>
+
+        <table class="table table-striped">
+            <tbody>
+            <tr>
+                <th scope="row">Order id</th>
+                <td>{{orderInfo.id}}</td>
+            </tr>
+            <tr>
+                <th scope="row">Total price</th>
+                <td>{{orderInfo.price}}</td>
+            </tr>
+            <tr>
+                <th scope="row">Date</th>
+                <td ng-bind="formatDate(orderInfo.createdAt) | date:'dd.MM.yyyy HH:mm'"></td>
+            </tr>
+            <tr>
+                <th scope="row">Address</th>
+                <td>{{orderInfo.address}}</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <br>
+
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Article</th>
+                <th scope="col">Title</th>
+                <th scope="col">Item price</th>
+                <th scope="col">Count</th>
+                <th scope="col">Price</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="p in orderInfo.orderItems">
+                <th scope="row">{{p.id}}</th>
+                <td>{{p.title}}</td>
+                <td>{{p.itemPrice}}</td>
+                <td>{{p.quantity}}</td>
+                <td>{{p.price}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>

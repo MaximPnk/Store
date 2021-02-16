@@ -3,52 +3,34 @@
     <h1>Orders history</h1>
     <hr>
 
-    <div ng-show="isCustomer">
-
+    <div ng-show="authorized">
         <table class="table">
             <thead class="thead-dark">
             <tr>
-                <th scope="col">Order ID</th>
-                <th scope="col">Date</th>
-                <th scope="col">Price</th>
-                <th scope="col">Address</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="h in customerHistory">
-                <th scope="row">{{h.id}}</th>
-                <td ng-bind="formatDate(h.createdAt) | date:'dd.MM.yyyy HH:mm'"></td>
-                <td>{{h.price}}</td>
-                <td>{{h.address}}</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div ng-show="isAdmin">
-        <table class="table">
-            <thead class="thead-dark">
-            <tr>
-                <th scope="col">Order ID</th>
-                <th scope="col">User ID</th>
-                <th scope="col">User name</th>
-                <th scope="col">User email</th>
-                <th scope="col">User phone</th>
-                <th scope="col">Date</th>
-                <th scope="col">Price</th>
-                <th scope="col">Address</th>
+                <th ng-show="isCustomer || isAdmin" scope="col">Order ID</th>
+                <th ng-show="isAdmin" scope="col">User ID</th>
+                <th ng-show="isAdmin" scope="col">User name</th>
+                <th ng-show="isAdmin" scope="col">User email</th>
+                <th ng-show="isAdmin" scope="col">User phone</th>
+                <th ng-show="isCustomer || isAdmin" scope="col">Date</th>
+                <th ng-show="isCustomer || isAdmin" scope="col">Price</th>
+                <th ng-show="isCustomer || isAdmin" scope="col">Address</th>
+                <th ng-show="isCustomer || isAdmin" scope="col">Order info</th>
             </tr>
             </thead>
             <tbody>
             <tr ng-repeat="h in history">
-                <th scope="row">{{h.id}}</th>
-                <td>{{h.userId}}</td>
-                <td>{{h.userName}}</td>
-                <td>{{h.userEmail}}</td>
-                <td>{{h.userPhone}}</td>
-                <td ng-bind="formatDate(h.createdAt) | date:'dd.MM.yyyy HH:mm'"></td>
-                <td>{{h.price}}</td>
-                <td>{{h.address}}</td>
+                <th ng-show="isCustomer || isAdmin" scope="row">{{h.id}}</th>
+                <td ng-show="isAdmin">{{h.userId}}</td>
+                <td ng-show="isAdmin">{{h.userName}}</td>
+                <td ng-show="isAdmin">{{h.userEmail}}</td>
+                <td ng-show="isAdmin">{{h.userPhone}}</td>
+                <td ng-show="isCustomer || isAdmin" ng-bind="formatDate(h.createdAt) | date:'dd.MM.yyyy HH:mm'"></td>
+                <td ng-show="isCustomer || isAdmin">{{h.price}}</td>
+                <td ng-show="isCustomer || isAdmin">{{h.address}}</td>
+                <td ng-show="isCustomer || isAdmin">
+                    <button class="btn btn-primary" ng-click="getOrderInfo(h.id)">Order info</button>
+                </td>
             </tr>
             </tbody>
         </table>

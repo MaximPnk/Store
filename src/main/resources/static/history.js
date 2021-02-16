@@ -8,7 +8,8 @@ app.controller('historyController', function ($scope, $http, $rootScope) {
     $scope.fillHistoryForCustomer = function () {
         $http.get(contextPath + 'api/v1/order/curr')
             .then(function (response) {
-                $scope.customerHistory = response.data;
+                console.log(response.data);
+                $scope.history = response.data;
         });
     }
 
@@ -23,6 +24,10 @@ app.controller('historyController', function ($scope, $http, $rootScope) {
         $scope.fillHistoryForAdmin()
     } else if ($rootScope.isCustomer) {
         $scope.fillHistoryForCustomer();
+    }
+
+    $scope.getOrderInfo = function(id) {
+        window.location = contextPath + '#!/order/' + id;
     }
 
 });
