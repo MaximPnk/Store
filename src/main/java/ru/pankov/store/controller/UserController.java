@@ -8,6 +8,7 @@ import ru.pankov.store.dto.UserDTO;
 import ru.pankov.store.err.ResourceNotFoundException;
 import ru.pankov.store.service.inter.UserService;
 
+import javax.annotation.PreDestroy;
 import java.security.Principal;
 
 @RestController

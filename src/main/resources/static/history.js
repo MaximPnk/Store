@@ -8,7 +8,6 @@ app.controller('historyController', function ($scope, $http, $rootScope) {
     $scope.fillHistoryForCustomer = function () {
         $http.get(contextPath + 'api/v1/order/curr')
             .then(function (response) {
-                console.log(response.data);
                 $scope.history = response.data;
         });
     }
