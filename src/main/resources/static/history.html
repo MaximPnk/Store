@@ -1,84 +1,39 @@
-<html ng-app="app" lang="en" xmlns:margin="http://www.w3.org/1999/xhtml">
+<div class="container">
 
-<head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <h1>Orders history</h1>
+    <hr>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.11/ngStorage.min.js"></script>
-    <script src="history.js"></script>
-    <title>History</title>
-</head>
-
-<body>
-
-<div class="container" ng-controller="historyController">
-
-    <div class="form-group mx-sm-3 mb-2" ng-show="authorized">
-        <h1>Hello, {{username}}!</h1>
-        <button type="button" class="btn btn-info mb-2" ng-click="goToShop()">Shop</button>
-        <button type="button" ng-show="isCustomer" class="btn btn-info mb-2" ng-click="goToCart()">Cart</button>
-        <button type="button" class="btn btn-danger mb-2" ng-click="logout()">Logout</button>
-        <hr>
-    </div>
-
-    <div ng-show="!authorized">
-        <h1>Hello, guest!</h1>
-        <button type="button" class="btn btn-primary" ng-click="goToReg()">Registration</button>
-        <button type="button" class="btn btn-primary" ng-click="goToAuth()">Auth</button>
-        <hr>
-    </div>
-
-    <div ng-show="isCustomer">
+    <div ng-show="authorized">
         <table class="table">
             <thead class="thead-dark">
             <tr>
-                <th scope="col">Order ID</th>
-                <th scope="col">Date</th>
-                <th scope="col">Price</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr ng-repeat="h in customerHistory">
-                <th scope="row">{{h.id}}</th>
-                <td ng-bind="formatDate(h.updatedAt) | date:'dd.MM.yyyy HH:mm'"></td>
-                <td>{{h.price}}</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <div ng-show="isAdmin">
-        <table class="table">
-            <thead class="thead-dark">
-            <tr>
-                <th scope="col">Order ID</th>
-                <th scope="col">User ID</th>
-                <th scope="col">User name</th>
-                <th scope="col">User email</th>
-                <th scope="col">User phone</th>
-                <th scope="col">Date</th>
-                <th scope="col">Price</th>
+                <th ng-show="isCustomer || isAdmin" scope="col">Order ID</th>
+                <th ng-show="isAdmin" scope="col">User ID</th>
+                <th ng-show="isAdmin" scope="col">User name</th>
+                <th ng-show="isAdmin" scope="col">User email</th>
+                <th ng-show="isAdmin" scope="col">User phone</th>
+                <th ng-show="isCustomer || isAdmin" scope="col">Date</th>
+                <th ng-show="isCustomer || isAdmin" scope="col">Price</th>
+                <th ng-show="isCustomer || isAdmin" scope="col">Address</th>
+                <th ng-show="isCustomer || isAdmin" scope="col">Order info</th>
             </tr>
             </thead>
             <tbody>
             <tr ng-repeat="h in history">
-                <th scope="row">{{h.id}}</th>
-                <td>{{h.userId}}</td>
-                <td>{{h.userName}}</td>
-                <td>{{h.userEmail}}</td>
-                <td>{{h.userPhone}}</td>
-                <td ng-bind="formatDate(h.updatedAt) | date:'dd.MM.yyyy HH:mm'"></td>
-                <td>{{h.price}}</td>
+                <th ng-show="isCustomer || isAdmin" scope="row">{{h.id}}</th>
+                <td ng-show="isAdmin">{{h.userId}}</td>
+                <td ng-show="isAdmin">{{h.userName}}</td>
+                <td ng-show="isAdmin">{{h.userEmail}}</td>
+                <td ng-show="isAdmin">{{h.userPhone}}</td>
+                <td ng-show="isCustomer || isAdmin" ng-bind="formatDate(h.createdAt) | date:'dd.MM.yyyy HH:mm'"></td>
+                <td ng-show="isCustomer || isAdmin">{{h.price}}</td>
+                <td ng-show="isCustomer || isAdmin">{{h.address}}</td>
+                <td ng-show="isCustomer || isAdmin">
+                    <button class="btn btn-primary" ng-click="getOrderInfo(h.id)">Order info</button>
+                </td>
             </tr>
             </tbody>
         </table>
     </div>
 
 </div>
-
-</body>
-
-</html>

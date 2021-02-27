@@ -1,35 +1,4 @@
-<html ng-app="app" lang="en" xmlns:margin="http://www.w3.org/1999/xhtml">
-
-<head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.11/ngStorage.min.js"></script>
-    <script src="cart.js"></script>
-    <title>Cart</title>
-</head>
-
-<body>
-
-<div class="container" ng-controller="cartController">
-
-    <div ng-show="authorized">
-        <h1>Hello, {{username}}!</h1>
-        <button type="button" class="btn btn-info mb-2" ng-click="goToShop()">Shop</button>
-        <button type="button" class="btn btn-info mb-2" ng-click="goToCart()">History</button>
-        <button type="button" class="btn btn-danger mb-2" ng-click="logout()">Logout</button>
-        <hr>
-    </div>
-
-    <div ng-show="!authorized">
-        <h1>Hello, guest!</h1>
-        <button type="button" class="btn btn-primary" ng-click="goToReg()">Registration</button>
-        <button type="button" class="btn btn-primary" ng-click="goToAuth()">Auth</button>
-        <hr>
-    </div>
+<div class="container">
 
     <div ng-show="isCustomer">
         <h1>Cart</h1>
@@ -52,11 +21,11 @@
                 <td>{{p.quantity}}</td>
                 <td>{{p.price}}</td>
                 <td>
-                    <button type="button" class="btn btn-warning" ng-click="dec(p.id)">-</button>
-                    <button type="button" class="btn btn-warning" ng-click="inc(p.id)">+</button>
+                    <button type="button" ng-disabled="confirm" class="btn btn-warning" ng-click="dec(p.id)">-</button>
+                    <button type="button" ng-disabled="confirm" class="btn btn-warning" ng-click="inc(p.id)">+</button>
                 </td>
                 <td>
-                    <button type="button" class="btn btn-danger" ng-click="rm(p.id)">Remove</button>
+                    <button type="button" ng-disabled="confirm" class="btn btn-danger" ng-click="rm(p.id)">Remove</button>
                 </td>
             </tr>
             </tbody>
@@ -66,12 +35,18 @@
         <h2 ng-show="items.products.length > 0">Total price: {{items.totalPrice}}</h2>
         <br>
 
-        <button class="btn btn-success" ng-show="items.products.length > 0" ng-click="makeOrder()">Make order</button>
-        <button class="btn btn-danger" ng-show="items.products.length > 0" ng-click="clearCart()">Clear basket</button>
+        <button class="btn btn-success" ng-show="items.products.length > 0 && !confirm" ng-click="confirmOrder()">Confirm order</button>
+        <button class="btn btn-danger" ng-show="items.products.length > 0 && !confirm" ng-click="clearCart()">Clear basket</button>
+
+        <form id="filterProducts" novalidate class="form-inline" ng-show="confirm" ng-submit="makeOrder()">
+            <div class="form-group mx-sm-3 mb-2">
+                <label for="address" class="sr-only">Address</label>
+                <input style="min-width: 500px" class="form-control" type="text" ng-model="address" id="address" placeholder="Address">
+                <button class="btn btn-success" style="margin-left: 5px" type="submit">Make order</button>
+                <button class="btn btn-danger" style="margin-left: 5px" type="reset" ng-click="cancelConfirmation()">Cancel</button>
+            </div>
+        </form>
+
     </div>
 
 </div>
-
-</body>
-
-</html>

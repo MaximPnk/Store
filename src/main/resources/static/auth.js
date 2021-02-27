@@ -1,4 +1,4 @@
-angular.module('app', ['ngStorage']).controller('authController', function ($scope, $http, $localStorage) {
+app.controller('authController', function ($scope, $http, $localStorage, $rootScope) {
     const contextPath = 'http://localhost:8189/';
 
     $scope.tryToAuth = function() {
@@ -10,19 +10,13 @@ angular.module('app', ['ngStorage']).controller('authController', function ($sco
 
                     $scope.user.username = null;
                     $scope.user.password = null;
-                    window.location = contextPath + 'index.html';
+
+                    $rootScope.checkAuth();
+                    window.location = contextPath + '#!/shop';
                 }
             }, function errorCallback(response) {
                 window.alert(response.data.message);
             });
-    }
-
-    $scope.goToShop = function () {
-        window.location = contextPath + 'index.html';
-    }
-
-    $scope.goToReg = function () {
-        window.location = contextPath + 'registration.html';
     }
 
 });

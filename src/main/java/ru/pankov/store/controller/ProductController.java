@@ -9,9 +9,6 @@ import ru.pankov.store.dao.spec.ProductSpecification;
 import ru.pankov.store.dto.ProductDTO;
 import ru.pankov.store.err.ResourceNotFoundException;
 import ru.pankov.store.service.inter.ProductService;
-import ru.pankov.store.service.inter.UserService;
-
-import java.security.Principal;
 
 @RestController
 @RequestMapping("api/v1/products")

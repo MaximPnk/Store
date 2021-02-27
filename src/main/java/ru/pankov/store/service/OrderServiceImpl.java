@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.pankov.store.bean.Cart;
 import ru.pankov.store.dao.OrderRepository;
-import ru.pankov.store.dto.OrderDTOForAdmins;
-import ru.pankov.store.dto.OrderDTOForCustomers;
+import ru.pankov.store.dto.OrderDTO;
+import ru.pankov.store.dto.OrderItemDTO;
 import ru.pankov.store.entity.Order;
 import ru.pankov.store.entity.OrderItem;
 import ru.pankov.store.entity.User;
@@ -29,8 +29,24 @@ public class OrderServiceImpl implements OrderService {
     private final ProductService productService;
 
     @Override
-    public List<OrderDTOForAdmins> findAll() {
-        return orderRepository.findAll().stream().map(OrderDTOForAdmins::new).collect(Collectors.toList());
+    public List<OrderDTO> findAllForAdmins() {
+        return orderRepository.findAll().stream().map(OrderDTO::new).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<OrderDTO> findAllForCustomers(User user) {
+        return orderRepository.findAllByUser(user).stream().map(u -> new OrderDTO(u.getId(), u.getCreatedAt(), u.getPrice(), u.getAddress())).collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<Order> findOrderById(Long id) {
+        return orderRepository.findById(id);
+    }
+
+    @Override
+    public Optional<OrderDTO> findByIdWithOrderItems(Long id) {
+        return orderRepository.findByIdFetchOrderItems(id)
+                .map(u -> new OrderDTO(u.getId(), u.getCreatedAt(), u.getPrice(), u.getAddress(), u.getOrderItem().stream().map(OrderItemDTO::new).collect(Collectors.toList())));
     }
 
     @Override
@@ -40,7 +56,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Transactional
     @Override
-    public void makeOrder(User user) {
+    public void makeOrder(User user, String address) {
         if (cart.getProducts().size() > 0) {
             cart.recalculate();
             Optional<OrderItem> orderItem = cart.getProducts().stream().filter(oi -> oi.getQuantity() > oi.getProduct().getCount()).findFirst();
@@ -49,7 +65,7 @@ public class OrderServiceImpl implements OrderService {
                         "Insufficient number of " + orderItem.get().getProduct().getTitle() + ". Maximum is " + orderItem.get().getProduct().getCount());
             }
 
-            Order order = new Order(user, cart.getTotalPrice());
+            Order order = new Order(user, cart.getTotalPrice(), address);
             saveOrUpdate(order);
 
             for (OrderItem oi : cart.getProducts()) {
@@ -61,11 +77,5 @@ public class OrderServiceImpl implements OrderService {
 
             cart.clear();
         }
-    }
-
-    @Override
-    public List<OrderDTOForCustomers> findAllByUser(User user) {
-        return orderRepository.findAllByUser(user).stream().map(OrderDTOForCustomers::new).collect(Collectors.toList());
-
     }
 }

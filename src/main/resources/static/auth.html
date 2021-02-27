@@ -1,20 +1,4 @@
-<html ng-app="app" lang="en" xmlns:margin="http://www.w3.org/1999/xhtml">
-
-<head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.11/ngStorage.min.js"></script>
-    <script src="auth.js"></script>
-    <title>Authorization</title>
-</head>
-
-<body>
-
-<div class="container" ng-controller="authController">
+<div class="container">
 
     <div class="mb-3 text-center">
         <form class="form-signin" ng-submit="tryToAuth()" style="max-width: 350px; padding: 15px; margin: 0 auto;">
@@ -26,11 +10,4 @@
         </form>
     </div>
 
-    <button type="button" class="btn btn-primary" ng-click="goToReg()">Registration</button>
-    <button type="button" class="btn btn-primary" ng-click="goToShop()">Back to shop</button>
-
 </div>
-
-</body>
-
-</html>

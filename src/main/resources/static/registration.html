@@ -1,27 +1,4 @@
-<html ng-app="app" lang="en" xmlns:margin="http://www.w3.org/1999/xhtml">
-
-<head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.11/ngStorage.min.js"></script>
-    <script src="registration.js"></script>
-    <title>Registration</title>
-</head>
-
-<body>
-
-<div class="container" ng-controller="registrationController">
-
-    <div style="margin-top: 50px" class="form-group mx-sm-3 mb-2">
-        <h1 ng-show="authorized">Hello, {{username}}! You are already logged in!</h1>
-        <h1 ng-show="registered">Registration successful!</h1>
-        <button type="button" class="btn btn-info mb-2" ng-click="goToAuth()">Auth</button>
-        <button type="button" class="btn btn-info mb-2" ng-click="goToShop()">Back to shop</button>
-    </div>
+<div class="container">
 
     <div ng-show="!authorized && !registered">
         <h1>Registration form:</h1>
@@ -57,8 +34,6 @@
 
     </div>
 
+    <h1 ng-show="registered">Registration successful!</h1>
+
 </div>
-
-</body>
-
-</html>
