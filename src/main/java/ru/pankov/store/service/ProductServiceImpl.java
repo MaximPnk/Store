@@ -12,6 +12,7 @@ import ru.pankov.store.service.inter.ProductService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +23,18 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> findAll() {
         return productRepository.findAll();
+    }
+
+    @Override
+    public List<ru.pankov.store.soap.Product> findAllSoap() {
+        return findAll().stream().map(p -> {
+            ru.pankov.store.soap.Product soapProduct = new ru.pankov.store.soap.Product();
+            soapProduct.setId(p.getId());
+            soapProduct.setTitle(p.getTitle());
+            soapProduct.setPrice(p.getPrice());
+            soapProduct.setCount(p.getCount());
+            return soapProduct;
+        }).collect(Collectors.toList());
     }
 
     @Override

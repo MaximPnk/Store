@@ -5,13 +5,18 @@
 2) user1 - 100 (customer)
 3) user2 - 100 (customer)
 
+**SOAP request:**
+[POST] http://localhost:8189/ws
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:f="http://www.pankov.ru/spring/ws/products">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <f:getAllProductsRequest/>
+    </soapenv:Body>
+</soapenv:Envelope>
+
 **Выполнено:**
-1) Исправлены ошибки с разбора
-2) Оптимизация фронта
-3) Navbar
-4) User info
-5) Order address, info
-6) AOP
+1) Убрано AOP
+2) Добавлен SOAP
 
 **TODO:**
 1) Корзина сессионная (нужно менять на бд/редис/другое)

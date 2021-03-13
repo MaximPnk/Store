@@ -12,6 +12,8 @@ public interface ProductService {
 
     List<Product> findAll();
 
+    List<ru.pankov.store.soap.Product> findAllSoap();
+
     void save(Product product);
 
     Page<ProductDTO> findAll(Specification<Product> spec, Integer page, Integer limit);

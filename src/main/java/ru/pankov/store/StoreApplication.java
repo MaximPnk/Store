@@ -12,9 +12,6 @@ public class StoreApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(StoreApplication.class, args);
-
-		new Scanner(System.in).nextLine();
-		System.exit(1);
 	}
 
 }
