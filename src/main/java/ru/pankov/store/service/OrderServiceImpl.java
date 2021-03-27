@@ -2,7 +2,7 @@ package ru.pankov.store.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.pankov.store.bean.Cart;
+import ru.pankov.store.bean.CartOld;
 import ru.pankov.store.dao.OrderRepository;
 import ru.pankov.store.dto.OrderDTO;
 import ru.pankov.store.dto.OrderItemDTO;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
-    private final Cart cart;
+    private final CartOld cartOld;
     private final OrderItemService orderItemService;
     private final ProductService productService;
 
@@ -57,25 +57,25 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     @Override
     public void makeOrder(User user, String address) {
-        if (cart.getProducts().size() > 0) {
-            cart.recalculate();
-            Optional<OrderItem> orderItem = cart.getProducts().stream().filter(oi -> oi.getQuantity() > oi.getProduct().getCount()).findFirst();
+        if (cartOld.getProducts().size() > 0) {
+            cartOld.recalculate();
+            Optional<OrderItem> orderItem = cartOld.getProducts().stream().filter(oi -> oi.getQuantity() > oi.getProduct().getCount()).findFirst();
             if (orderItem.isPresent()) {
                 throw new InsufficientNumberOfItemsException(
                         "Insufficient number of " + orderItem.get().getProduct().getTitle() + ". Maximum is " + orderItem.get().getProduct().getCount());
             }
 
-            Order order = new Order(user, cart.getTotalPrice(), address);
+            Order order = new Order(user, cartOld.getTotalPrice(), address);
             saveOrUpdate(order);
 
-            for (OrderItem oi : cart.getProducts()) {
+            for (OrderItem oi : cartOld.getProducts()) {
                 oi.setOrder(order);
                 oi.getProduct().setCount(oi.getProduct().getCount() - oi.getQuantity());
                 orderItemService.saveOrUpdate(oi);
                 productService.save(oi.getProduct());
             }
 
-            cart.clear();
+            cartOld.clear();
         }
     }
 }

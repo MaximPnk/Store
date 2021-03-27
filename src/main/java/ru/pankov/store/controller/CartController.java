@@ -1,46 +1,56 @@
 package ru.pankov.store.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import ru.pankov.store.bean.Cart;
+import org.springframework.web.bind.annotation.*;
 import ru.pankov.store.dto.CartDTO;
+import ru.pankov.store.entity.Cart;
+import ru.pankov.store.err.ResourceNotFoundException;
+import ru.pankov.store.service.inter.CartService;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/cart")
 @RequiredArgsConstructor
 public class CartController {
-    private final Cart cart;
 
-    @GetMapping
-    public CartDTO getCart() {
-        return new CartDTO(cart);
+    private final CartService cartService;
+
+    @PostMapping()
+    public UUID createCart() {
+        Cart cart = cartService.save(new Cart());
+        return cart.getId();
     }
 
-    @GetMapping("/add/{id}")
-    public void addToCart(@PathVariable Long id) {
-        cart.addToCart(id);
+    @GetMapping("/{cartId}")
+    public CartDTO getCart(@PathVariable UUID cartId) {
+        return new CartDTO(cartService.findById(cartId).orElseThrow(() -> new ResourceNotFoundException("Not found")));
     }
 
-    @GetMapping("/rm/{id}")
-    public void rmFromCart(@PathVariable Long id) {
-        cart.removeFromCart(id);
+    @GetMapping("/add/{cartId}/{productId}")
+    public void addToCart(@PathVariable UUID cartId, @PathVariable Long productId) {
+        cartService.addToCart(cartId, productId);
     }
 
-    @GetMapping("/clear")
-    public void clearCart() {
-        cart.clear();
+    @GetMapping("/rm/{cartId}/{productId}")
+    public void rmFromCart(@PathVariable UUID cartId, @PathVariable Long productId) {
+        cartService.removeFromCart(cartId, productId);
     }
 
-    @GetMapping("/inc/{id}")
-    public void inc(@PathVariable Long id) {
-        cart.inc(id);
+    @GetMapping("/clear/{cartId}")
+    public void clearCart(@PathVariable UUID cartId) {
+        cartService.clear(cartId);
     }
 
-    @GetMapping("/dec/{id}")
-    public void dec(@PathVariable Long id) {
-        cart.dec(id);
+    @GetMapping("/inc/{cartId}/{productId}")
+    public void inc(@PathVariable UUID cartId, @PathVariable Long productId) {
+        cartService.inc(cartId, productId);
     }
+
+    @GetMapping("/dec/{cartId}/{productId}")
+    public void dec(@PathVariable UUID cartId, @PathVariable Long productId) {
+        cartService.dec(cartId, productId);
+    }
+
+
 }

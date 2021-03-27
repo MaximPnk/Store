@@ -20,7 +20,7 @@ import java.util.List;
 @Data
 @RequiredArgsConstructor
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class Cart {
+public class CartOld {
 
     //TODO решить проблему с коризной (бд, куки, редис)
 
