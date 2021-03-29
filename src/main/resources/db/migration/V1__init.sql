@@ -41,6 +41,22 @@ CREATE TABLE order_items (
     updated_at timestamp default current_timestamp
 );
 
+create table carts (
+    id UUID primary key,
+    price float
+);
+
+create table cart_items (
+    id bigserial primary key,
+    cart_id UUID references carts (id),
+    product_id bigint references products (id),
+    quantity bigint,
+    item_price float,
+    price int,
+    created_at timestamp default current_timestamp,
+    updated_at timestamp default current_timestamp
+);
+
 create table roles (
     id serial,
     name varchar(50) not null,

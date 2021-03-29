@@ -26,18 +26,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ru.pankov.store.soap.Product> findAllSoap() {
-        return findAll().stream().map(p -> {
-            ru.pankov.store.soap.Product soapProduct = new ru.pankov.store.soap.Product();
-            soapProduct.setId(p.getId());
-            soapProduct.setTitle(p.getTitle());
-            soapProduct.setPrice(p.getPrice());
-            soapProduct.setCount(p.getCount());
-            return soapProduct;
-        }).collect(Collectors.toList());
-    }
-
-    @Override
     public void save(Product product) {
         productRepository.save(product);
     }
