@@ -18,11 +18,13 @@ import ru.pankov.store.dto.JwtResponse;
 import ru.pankov.store.dto.UserDTO;
 import ru.pankov.store.entity.User;
 import ru.pankov.store.err.MarketError;
+import ru.pankov.store.service.inter.CartService;
 import ru.pankov.store.service.inter.UserService;
 
 import javax.validation.Valid;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Controller
@@ -32,6 +34,7 @@ public class AuthController {
     private final UserService userService;
     private final JwtTokenUtil jwtTokenUtil;
     private final AuthenticationManager authenticationManager;
+    private final CartService cartService;
 
     @PostMapping("/auth")
     public ResponseEntity<?> createAuthToken(@RequestBody JwtRequest authRequest) {
@@ -43,7 +46,9 @@ public class AuthController {
 
         UserDetails userDetails = userService.loadUserByUsername(authRequest.getUsername());
         String token = jwtTokenUtil.generateToken(userDetails);
-        return ResponseEntity.ok(new JwtResponse(token));
+
+        UUID cartId = cartService.mergeCarts(authRequest.getUsername(), authRequest.getCartId());
+        return ResponseEntity.ok(new JwtResponse(token, cartId));
     }
 
     @PostMapping("/registration")

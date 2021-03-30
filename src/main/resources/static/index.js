@@ -14,12 +14,24 @@ app.controller('indexController', function ($scope, $http, $localStorage, $rootS
         $rootScope.isCustomer = token.roles.includes("ROLE_CUSTOMER");
     }
 
+    $rootScope.getCart = function () {
+        if (!$localStorage.shopCartUUID) {
+            $http.post(contextPath + 'api/v1/cart/')
+                .then(function successCallback(response) {
+                    $localStorage.shopCartUUID = response.data;
+                    window.location = contextPath + '#!/home'
+                })
+        }
+    }
+
     $rootScope.clearUserData = function() {
         delete $localStorage.shopToken;
         $rootScope.authorized = false;
         $rootScope.username = null;
         $rootScope.isAdmin = false;
         $rootScope.isCustomer = false;
+        $localStorage.shopCartUUID = null;
+        $rootScope.getCart();
     }
 
     $rootScope.checkAuth = function () {
@@ -36,9 +48,26 @@ app.controller('indexController', function ($scope, $http, $localStorage, $rootS
         }
     }
 
+    $scope.doesCartExists = function () {
+        $http.get(contextPath + 'api/v1/cart/exists/' + $localStorage.shopCartUUID)
+            .then(function(response) {
+                if (!response.data) {
+                    $http.post(contextPath + 'api/v1/cart/')
+                        .then(function successCallback(innerResponse) {
+                            $localStorage.shopCartUUID = innerResponse.data;
+                        })
+                }
+            });
+    }
+
+    $scope.doesCartExists();
+
     $rootScope.checkAuth();
 
+    $rootScope.getCart();
+
     $scope.tryToAuth = function() {
+        $scope.user.cartId = $localStorage.shopCartUUID;
         $http.post(contextPath + 'auth/', $scope.user)
             .then(function successCallback(response) {
                 if (response.data.token) {
@@ -47,8 +76,10 @@ app.controller('indexController', function ($scope, $http, $localStorage, $rootS
 
                     $scope.user.username = null;
                     $scope.user.password = null;
+                    $localStorage.shopCartUUID = response.data.cartId;
 
                     $rootScope.checkAuth();
+                    window.location = contextPath + '#!/home'
                 }
             }, function errorCallback(response) {
                 window.alert(response.data.message);

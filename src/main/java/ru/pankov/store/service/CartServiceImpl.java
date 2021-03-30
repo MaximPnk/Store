@@ -9,6 +9,7 @@ import ru.pankov.store.entity.Product;
 import ru.pankov.store.err.ResourceNotFoundException;
 import ru.pankov.store.service.inter.CartService;
 import ru.pankov.store.service.inter.ProductService;
+import ru.pankov.store.service.inter.UserService;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -21,6 +22,7 @@ public class CartServiceImpl implements CartService {
 
     private final CartRepository cartRepository;
     private final ProductService productService;
+    private final UserService userService;
 
     @Override
     public Cart save(Cart cart) {
@@ -40,8 +42,7 @@ public class CartServiceImpl implements CartService {
 
         for (CartItem ci : cartItemList) {
             if (ci.getProduct().getId().equals(productId)) {
-                ci.incrementQuantity();
-                cart.recalculate();
+                cart.add(ci);
                 return;
             }
         }
@@ -78,8 +79,7 @@ public class CartServiceImpl implements CartService {
         Cart cart = findById(cartId).orElseThrow(() -> new ResourceNotFoundException("Unable to find cart with id: " + cartId));
         for (CartItem ci : cart.getItems()) {
             if (ci.getProduct().getId().equals(productId)) {
-                ci.incrementQuantity();
-                cart.recalculate();
+                cart.add(ci);
                 return;
             }
         }
@@ -100,5 +100,24 @@ public class CartServiceImpl implements CartService {
                 return;
             }
         }
+    }
+
+    @Transactional
+    @Override
+    public boolean cartExists(UUID cartId) {
+        return cartRepository.existsById(cartId);
+    }
+
+    @Transactional
+    @Override
+    public UUID mergeCarts(String username, UUID cartId) {
+        Cart guestCart = findById(cartId).orElseThrow(() -> new ResourceNotFoundException("Cart not found"));
+        Cart userCart = userService.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException("User not found")).getCart();
+
+        guestCart.getItems().forEach(userCart::add);
+
+        cartRepository.delete(guestCart);
+
+        return userCart.getId();
     }
 }

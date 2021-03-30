@@ -25,5 +25,5 @@ public class Role {
 
     @Column(name = "updated_at")
     @CreationTimestamp
-    private LocalDateTime updated_at;
+    private LocalDateTime updatedAt;
 }

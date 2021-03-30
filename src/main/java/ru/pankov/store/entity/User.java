@@ -32,6 +32,10 @@ public class User {
     @Column(name = "phone")
     private String phone;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cart_id")
+    Cart cart;
+
     @ManyToMany
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -44,7 +48,7 @@ public class User {
 
     @Column(name = "updated_at")
     @CreationTimestamp
-    private LocalDateTime updated_at;
+    private LocalDateTime updatedAt;
 
     public User (UserDTO userDTO) {
         this.username = userDTO.getUsername();

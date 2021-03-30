@@ -42,27 +42,13 @@ public class OrderItem {
 
     @Column(name = "updated_at")
     @CreationTimestamp
-    private LocalDateTime updated_at;
+    private LocalDateTime updatedAt;
 
-    public OrderItem(Product product) {
-        this.product = product;
-        this.quantity = 1;
-        this.itemPrice = product.getPrice();
-        this.price = this.itemPrice.multiply(BigDecimal.valueOf(this.quantity));
+    public OrderItem(CartItem cartItem) {
+        this.product = cartItem.getProduct();
+        this.itemPrice = cartItem.getItemPrice();
+        this.quantity = cartItem.getQuantity();
+        this.price = cartItem.getPrice();
     }
 
-    public void recalculate() {
-        itemPrice = product.getPrice();
-        price = itemPrice.multiply(BigDecimal.valueOf(quantity));
-    }
-
-    public void incrementQuantity() {
-        quantity++;
-        price = price.add(itemPrice);
-    }
-
-    public void decrementQuantity() {
-        quantity--;
-        price = price.subtract(itemPrice);
-    }
 }

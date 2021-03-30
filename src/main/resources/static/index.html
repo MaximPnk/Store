@@ -38,7 +38,7 @@
                         <a class="nav-link" href="#!/shop">Shop</a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" ng-show="isCustomer" href="#!/cart">Cart</a>
+                        <a class="nav-link" ng-show="!isAdmin" href="#!/cart">Cart</a>
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" ng-show="authorized" href="#!/history">History</a>
@@ -75,15 +75,15 @@
     <ng-view></ng-view>
 
     <script src="app-route.js"></script>
-    <script src="home.js"></script>
+    <script src="home/home.js"></script>
     <script src="index.js"></script>
-    <script src="shop.js"></script>
-    <script src="cart.js"></script>
-    <script src="history.js"></script>
-    <script src="product-form.js"></script>
-    <script src="registration.js"></script>
-    <script src="user.js"></script>
-    <script src="order.js"></script>
+    <script src="shop/shop.js"></script>
+    <script src="cart/cart.js"></script>
+    <script src="history/history.js"></script>
+    <script src="product-form/product-form.js"></script>
+    <script src="registration/registration.js"></script>
+    <script src="user/user.js"></script>
+    <script src="order/order.js"></script>
 
 </div>
 

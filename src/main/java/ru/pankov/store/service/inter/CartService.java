@@ -28,4 +28,10 @@ public interface CartService {
 
     @Transactional
     void dec(UUID cartId, Long productId);
+
+    @Transactional
+    boolean cartExists(UUID cartId);
+
+    @Transactional
+    UUID mergeCarts(String username, UUID cartId);
 }

@@ -6,6 +6,7 @@ import ru.pankov.store.entity.User;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface OrderService {
 
@@ -19,5 +20,5 @@ public interface OrderService {
 
     void saveOrUpdate(Order order);
 
-    void makeOrder(User user, String address);
+    void makeOrder(String userName, UUID cartId, String address);
 }

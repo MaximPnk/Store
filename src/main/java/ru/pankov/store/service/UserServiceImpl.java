@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.pankov.store.dao.UserRepository;
 import ru.pankov.store.dto.UserDTO;
+import ru.pankov.store.entity.Cart;
 import ru.pankov.store.entity.Role;
 import ru.pankov.store.entity.User;
 import ru.pankov.store.err.ResourceNotFoundException;
@@ -68,6 +69,7 @@ public class UserServiceImpl implements UserService {
     public void save(UserDTO userDTO) {
         userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         User user = userRepository.save(new User(userDTO));
+        user.setCart(new Cart());
         user.setRoles(new ArrayList<>(Arrays.asList(customerRole)));
     }
 

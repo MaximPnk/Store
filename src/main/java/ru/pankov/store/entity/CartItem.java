@@ -42,7 +42,7 @@ public class CartItem {
 
     @Column(name = "updated_at")
     @CreationTimestamp
-    private LocalDateTime updated_at;
+    private LocalDateTime updatedAt;
 
     public CartItem(Product product) {
         this.product = product;
@@ -56,9 +56,9 @@ public class CartItem {
         price = itemPrice.multiply(BigDecimal.valueOf(quantity));
     }
 
-    public void incrementQuantity() {
-        quantity++;
-        price = price.add(itemPrice);
+    public void incrementQuantity(int num) {
+        quantity += num;
+        price = price.add(itemPrice.multiply(BigDecimal.valueOf(num)));
     }
 
     public void decrementQuantity() {

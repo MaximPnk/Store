@@ -32,7 +32,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             jwt = authHeader.substring(7);
             try {
                 username = jwtTokenUtil.getUsernameFromToken(jwt);
-            } catch (ExpiredJwtException e) {}
+            } catch (ExpiredJwtException ignored) {}
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
