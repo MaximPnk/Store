@@ -33,6 +33,10 @@ public class Cart {
     @CreationTimestamp
     private LocalDateTime updatedAt;
 
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     public void add(CartItem cartItem) {
         for (CartItem ci : this.items) {
             if (ci.getProduct().getId().equals(cartItem.getProduct().getId())) {

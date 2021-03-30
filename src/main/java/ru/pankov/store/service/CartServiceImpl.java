@@ -12,6 +12,7 @@ import ru.pankov.store.service.inter.ProductService;
 import ru.pankov.store.service.inter.UserService;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -39,6 +40,7 @@ public class CartServiceImpl implements CartService {
     public void addToCart(UUID cartId, Long productId) {
         Cart cart = findById(cartId).orElseThrow(() -> new ResourceNotFoundException("Unable to find cart with id: " + cartId));
         List<CartItem> cartItemList = cart.getItems();
+        cart.setUpdatedAt(LocalDateTime.now());
 
         for (CartItem ci : cartItemList) {
             if (ci.getProduct().getId().equals(productId)) {
@@ -56,6 +58,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public void removeFromCart(UUID cartId, Long productId) {
         Cart cart = findById(cartId).orElseThrow(() -> new ResourceNotFoundException("Unable to find cart with id: " + cartId));
+        cart.setUpdatedAt(LocalDateTime.now());
         for (CartItem ci : cart.getItems()) {
             if (ci.getProduct().getId().equals(productId)) {
                 cart.getItems().remove(ci);
@@ -69,6 +72,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public void clear(UUID cartId) {
         Cart cart = findById(cartId).orElseThrow(() -> new ResourceNotFoundException("Unable to find cart with id: " + cartId));
+        cart.setUpdatedAt(LocalDateTime.now());
         cart.getItems().clear();
         cart.recalculate();
     }
@@ -77,6 +81,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public void inc(UUID cartId, Long productId) {
         Cart cart = findById(cartId).orElseThrow(() -> new ResourceNotFoundException("Unable to find cart with id: " + cartId));
+        cart.setUpdatedAt(LocalDateTime.now());
         for (CartItem ci : cart.getItems()) {
             if (ci.getProduct().getId().equals(productId)) {
                 cart.add(ci);
@@ -89,6 +94,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public void dec(UUID cartId, Long productId) {
         Cart cart = findById(cartId).orElseThrow(() -> new ResourceNotFoundException("Unable to find cart with id: " + cartId));
+        cart.setUpdatedAt(LocalDateTime.now());
         for (CartItem ci : cart.getItems()) {
             if (ci.getProduct().getId().equals(productId)) {
                 if (ci.getQuantity() <= 1) {

@@ -15,6 +15,7 @@ app.controller('indexController', function ($scope, $http, $localStorage, $rootS
     }
 
     $rootScope.getCart = function () {
+        console.log("get cart");
         if (!$localStorage.shopCartUUID) {
             $http.post(contextPath + 'api/v1/cart/')
                 .then(function successCallback(response) {
@@ -24,17 +25,22 @@ app.controller('indexController', function ($scope, $http, $localStorage, $rootS
         }
     }
 
+    $rootScope.logout = function () {
+        delete $localStorage.shopCartUUID;
+        $rootScope.clearUserData();
+    }
+
     $rootScope.clearUserData = function() {
         delete $localStorage.shopToken;
         $rootScope.authorized = false;
         $rootScope.username = null;
         $rootScope.isAdmin = false;
         $rootScope.isCustomer = false;
-        $localStorage.shopCartUUID = null;
         $rootScope.getCart();
     }
 
     $rootScope.checkAuth = function () {
+        console.log("check auth");
         if ($localStorage.shopToken) {
             $rootScope.decodedShopToken = $rootScope.decodeToken($localStorage.shopToken);
             if ($rootScope.decodedShopToken.exp <= (new Date().getTime() / 1000)) {
@@ -60,11 +66,9 @@ app.controller('indexController', function ($scope, $http, $localStorage, $rootS
             });
     }
 
-    $scope.doesCartExists();
-
     $rootScope.checkAuth();
 
-    $rootScope.getCart();
+    $scope.doesCartExists();
 
     $scope.tryToAuth = function() {
         $scope.user.cartId = $localStorage.shopCartUUID;
