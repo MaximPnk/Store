@@ -13,6 +13,7 @@ create table users (
     password varchar(80) not null,
     email varchar(50) unique,
     phone varchar(50) unique,
+    cart_id uuid not null,
     primary key (id),
     created_at timestamp default current_timestamp,
     updated_at timestamp default current_timestamp
@@ -43,8 +44,12 @@ CREATE TABLE order_items (
 
 create table carts (
     id UUID primary key,
-    price float
+    price float,
+    user_id bigint references users(id),
+    updated_at timestamp default current_timestamp
 );
+
+alter table users add foreign key (cart_id) references carts(id);
 
 create table cart_items (
     id bigserial primary key,
@@ -79,10 +84,19 @@ insert into roles (name) values
     ('ROLE_CUSTOMER'),
     ('ROLE_ADMIN');
 
-insert into users (username, password, email, phone) values
-    ('user1', '$2y$04$v/tR4dKWpN/bypQqcvVEE.Lw961vkUkJMN.YVfMT44RKwlOJdnHri', 'user1@gmail.com', '89161234567'),
-    ('user2', '$2y$04$v/tR4dKWpN/bypQqcvVEE.Lw961vkUkJMN.YVfMT44RKwlOJdnHri', 'user2@gmail.com', '89167654321'),
-    ('admin', '$2y$04$v/tR4dKWpN/bypQqcvVEE.Lw961vkUkJMN.YVfMT44RKwlOJdnHri', 'admin@gmail.com', '89031223344');
+insert into carts (id, price) values
+    ('d86bb746-8da8-4305-a6a1-27665b82ccc7', 0),
+    ('0a8afd74-b370-49ae-a396-f7baa1c1758a', 0),
+    ('38e50662-13b3-4153-8f61-11788cb33bf2', 0);
+
+insert into users (username, password, email, phone, cart_id) values
+    ('user1', '$2y$04$v/tR4dKWpN/bypQqcvVEE.Lw961vkUkJMN.YVfMT44RKwlOJdnHri', 'user1@gmail.com', '89161234567', 'd86bb746-8da8-4305-a6a1-27665b82ccc7'),
+    ('user2', '$2y$04$v/tR4dKWpN/bypQqcvVEE.Lw961vkUkJMN.YVfMT44RKwlOJdnHri', 'user2@gmail.com', '89167654321', '0a8afd74-b370-49ae-a396-f7baa1c1758a'),
+    ('admin', '$2y$04$v/tR4dKWpN/bypQqcvVEE.Lw961vkUkJMN.YVfMT44RKwlOJdnHri', 'admin@gmail.com', '89031223344', '38e50662-13b3-4153-8f61-11788cb33bf2');
+
+update carts set user_id = 1 where id = 'd86bb746-8da8-4305-a6a1-27665b82ccc7';
+update carts set user_id = 2 where id = '0a8afd74-b370-49ae-a396-f7baa1c1758a';
+update carts set user_id = 3 where id = '38e50662-13b3-4153-8f61-11788cb33bf2';
 
 insert into users_roles (user_id, role_id) values
     (1, 1),

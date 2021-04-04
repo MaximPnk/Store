@@ -9,8 +9,10 @@ import ru.pankov.store.entity.Product;
 import ru.pankov.store.err.ResourceNotFoundException;
 import ru.pankov.store.service.inter.CartService;
 import ru.pankov.store.service.inter.ProductService;
+import ru.pankov.store.service.inter.UserService;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -21,6 +23,7 @@ public class CartServiceImpl implements CartService {
 
     private final CartRepository cartRepository;
     private final ProductService productService;
+    private final UserService userService;
 
     @Override
     public Cart save(Cart cart) {
@@ -37,11 +40,11 @@ public class CartServiceImpl implements CartService {
     public void addToCart(UUID cartId, Long productId) {
         Cart cart = findById(cartId).orElseThrow(() -> new ResourceNotFoundException("Unable to find cart with id: " + cartId));
         List<CartItem> cartItemList = cart.getItems();
+        cart.setUpdatedAt(LocalDateTime.now());
 
         for (CartItem ci : cartItemList) {
             if (ci.getProduct().getId().equals(productId)) {
-                ci.incrementQuantity();
-                cart.recalculate();
+                cart.add(ci);
                 return;
             }
         }
@@ -55,6 +58,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public void removeFromCart(UUID cartId, Long productId) {
         Cart cart = findById(cartId).orElseThrow(() -> new ResourceNotFoundException("Unable to find cart with id: " + cartId));
+        cart.setUpdatedAt(LocalDateTime.now());
         for (CartItem ci : cart.getItems()) {
             if (ci.getProduct().getId().equals(productId)) {
                 cart.getItems().remove(ci);
@@ -68,6 +72,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public void clear(UUID cartId) {
         Cart cart = findById(cartId).orElseThrow(() -> new ResourceNotFoundException("Unable to find cart with id: " + cartId));
+        cart.setUpdatedAt(LocalDateTime.now());
         cart.getItems().clear();
         cart.recalculate();
     }
@@ -76,10 +81,10 @@ public class CartServiceImpl implements CartService {
     @Override
     public void inc(UUID cartId, Long productId) {
         Cart cart = findById(cartId).orElseThrow(() -> new ResourceNotFoundException("Unable to find cart with id: " + cartId));
+        cart.setUpdatedAt(LocalDateTime.now());
         for (CartItem ci : cart.getItems()) {
             if (ci.getProduct().getId().equals(productId)) {
-                ci.incrementQuantity();
-                cart.recalculate();
+                cart.add(ci);
                 return;
             }
         }
@@ -89,6 +94,7 @@ public class CartServiceImpl implements CartService {
     @Override
     public void dec(UUID cartId, Long productId) {
         Cart cart = findById(cartId).orElseThrow(() -> new ResourceNotFoundException("Unable to find cart with id: " + cartId));
+        cart.setUpdatedAt(LocalDateTime.now());
         for (CartItem ci : cart.getItems()) {
             if (ci.getProduct().getId().equals(productId)) {
                 if (ci.getQuantity() <= 1) {
@@ -100,5 +106,24 @@ public class CartServiceImpl implements CartService {
                 return;
             }
         }
+    }
+
+    @Transactional
+    @Override
+    public boolean cartExists(UUID cartId) {
+        return cartRepository.existsById(cartId);
+    }
+
+    @Transactional
+    @Override
+    public UUID mergeCarts(String username, UUID cartId) {
+        Cart guestCart = findById(cartId).orElseThrow(() -> new ResourceNotFoundException("Cart not found"));
+        Cart userCart = userService.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException("User not found")).getCart();
+
+        guestCart.getItems().forEach(userCart::add);
+
+        cartRepository.delete(guestCart);
+
+        return userCart.getId();
     }
 }

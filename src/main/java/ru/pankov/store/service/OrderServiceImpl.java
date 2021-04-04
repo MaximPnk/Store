@@ -2,21 +2,18 @@ package ru.pankov.store.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.pankov.store.bean.CartOld;
 import ru.pankov.store.dao.OrderRepository;
 import ru.pankov.store.dto.OrderDTO;
 import ru.pankov.store.dto.OrderItemDTO;
-import ru.pankov.store.entity.Order;
-import ru.pankov.store.entity.OrderItem;
-import ru.pankov.store.entity.User;
+import ru.pankov.store.entity.*;
 import ru.pankov.store.err.InsufficientNumberOfItemsException;
-import ru.pankov.store.service.inter.OrderItemService;
-import ru.pankov.store.service.inter.OrderService;
-import ru.pankov.store.service.inter.ProductService;
+import ru.pankov.store.err.ResourceNotFoundException;
+import ru.pankov.store.service.inter.*;
 
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,9 +21,10 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
-    private final CartOld cartOld;
     private final OrderItemService orderItemService;
     private final ProductService productService;
+    private final UserService userService;
+    private final CartService cartService;
 
     @Override
     public List<OrderDTO> findAllForAdmins() {
@@ -56,26 +54,29 @@ public class OrderServiceImpl implements OrderService {
 
     @Transactional
     @Override
-    public void makeOrder(User user, String address) {
-        if (cartOld.getProducts().size() > 0) {
-            cartOld.recalculate();
-            Optional<OrderItem> orderItem = cartOld.getProducts().stream().filter(oi -> oi.getQuantity() > oi.getProduct().getCount()).findFirst();
-            if (orderItem.isPresent()) {
+    public void makeOrder(String userName, UUID cartId, String address) {
+
+        User user = userService.findByUsername(userName).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        Cart cart = cartService.findById(cartId).orElseThrow(() -> new ResourceNotFoundException("Cart not found"));
+
+        if (cart.getItems().size() > 0) {
+            Optional<CartItem> cartItem = cart.getItems().stream().filter(ci -> ci.getQuantity() > ci.getProduct().getCount()).findFirst();
+            if (cartItem.isPresent()) {
                 throw new InsufficientNumberOfItemsException(
-                        "Insufficient number of " + orderItem.get().getProduct().getTitle() + ". Maximum is " + orderItem.get().getProduct().getCount());
+                        "Insufficient number of " + cartItem.get().getProduct().getTitle() + ". Maximum is " + cartItem.get().getProduct().getCount());
             }
 
-            Order order = new Order(user, cartOld.getTotalPrice(), address);
-            saveOrUpdate(order);
+            Order order = orderRepository.save(new Order(user, cart.getTotalPrice(), address));
 
-            for (OrderItem oi : cartOld.getProducts()) {
+            for (CartItem ci : cart.getItems()) {
+                OrderItem oi = new OrderItem(ci);
                 oi.setOrder(order);
                 oi.getProduct().setCount(oi.getProduct().getCount() - oi.getQuantity());
                 orderItemService.saveOrUpdate(oi);
                 productService.save(oi.getProduct());
             }
 
-            cartOld.clear();
+            cartService.clear(cart.getId());
         }
     }
 }

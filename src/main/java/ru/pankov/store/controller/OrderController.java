@@ -1,6 +1,7 @@
 package ru.pankov.store.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -18,10 +19,12 @@ import ru.pankov.store.service.inter.UserService;
 import javax.annotation.PostConstruct;
 import java.security.Principal;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/order")
 @RequiredArgsConstructor
+@Slf4j
 public class OrderController {
 
     private final UserService userService;
@@ -60,8 +63,8 @@ public class OrderController {
 
     @PostMapping("/")
     @PreAuthorize("hasRole('ROLE_CUSTOMER')")
-    public void makeOrder(Principal principal, @RequestBody String address) {
-        User user = userService.findByUsername(principal.getName()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        orderService.makeOrder(user, address);
+    public void makeOrder(Principal principal, @RequestParam(name = "uuid") UUID cartId, @RequestParam(name = "address") String address) {
+        log.info("Make order: username = " + principal.getName() + ", cart id = " + cartId + ", address = " + address);
+        orderService.makeOrder(principal.getName(), cartId, address);
     }
 }

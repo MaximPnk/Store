@@ -1,6 +1,6 @@
 <div class="container">
 
-    <div ng-show="isCustomer">
+    <div ng-show="!isAdmin">
         <h1>Cart</h1>
 
         <table class="table">
@@ -15,7 +15,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="p in items.products">
+            <tr ng-repeat="p in cart.items">
                 <td>{{p.title}}</td>
                 <td>{{p.itemPrice}}</td>
                 <td>{{p.quantity}}</td>
@@ -32,13 +32,13 @@
         </table>
 
         <hr>
-        <h2 ng-show="items.products.length > 0">Total price: {{items.totalPrice}}</h2>
+        <h2 ng-show="cart.items.length > 0">Total price: {{cart.totalPrice}}</h2>
         <br>
 
-        <button class="btn btn-success" ng-show="items.products.length > 0 && !confirm" ng-click="confirmOrder()">Confirm order</button>
-        <button class="btn btn-danger" ng-show="items.products.length > 0 && !confirm" ng-click="clearCart()">Clear basket</button>
+        <button class="btn btn-success" ng-show="cart.items.length > 0 && !confirm && isCustomer" ng-click="confirmOrder()">Confirm order</button>
+        <button class="btn btn-danger" ng-show="cart.items.length > 0 && !confirm" ng-click="clearCart()">Clear basket</button>
 
-        <form id="filterProducts" novalidate class="form-inline" ng-show="confirm" ng-submit="makeOrder()">
+        <form id="filterProducts" novalidate class="form-inline" ng-show="confirm && isCustomer" ng-submit="makeOrder()">
             <div class="form-group mx-sm-3 mb-2">
                 <label for="address" class="sr-only">Address</label>
                 <input style="min-width: 500px" class="form-control" type="text" ng-model="address" id="address" placeholder="Address">

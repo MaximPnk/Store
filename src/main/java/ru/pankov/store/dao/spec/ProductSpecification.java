@@ -1,6 +1,5 @@
 package ru.pankov.store.dao.spec;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.MultiValueMap;
 import ru.pankov.store.entity.Product;

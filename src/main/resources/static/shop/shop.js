@@ -1,4 +1,4 @@
-app.controller('shopController', function ($scope, $http) {
+app.controller('shopController', function ($scope, $http, $localStorage) {
     const contextPath = 'http://localhost:8189/';
 
 
@@ -66,7 +66,14 @@ app.controller('shopController', function ($scope, $http) {
     };
 
     $scope.addToCart = function (id) {
-        $http.get(contextPath + "api/v1/cart/add/" + id);
+        $http({
+            url: contextPath + 'api/v1/cart/add',
+            method: 'POST',
+            params: {
+                uuid: $localStorage.shopCartUUID,
+                product_id: id
+            }
+        })
     };
 
     $scope.clearFilters = function () {

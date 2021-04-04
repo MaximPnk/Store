@@ -25,7 +25,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
             .authorizeRequests()
                 .antMatchers("/api/v1/products/**").permitAll()
-                .antMatchers("/api/v1/cart/**").hasRole("CUSTOMER")
                 .antMatchers("/api/v1/order/**").authenticated()
                 .antMatchers("/api/v1/user/**").authenticated()
                 .antMatchers("/auth").anonymous()
