@@ -1,5 +1,5 @@
 app.controller('indexController', function ($scope, $http, $localStorage, $rootScope) {
-    const contextPath = 'http://localhost:8189/';
+    const contextPath = 'http://localhost:8855/';
 
     $rootScope.decodeToken = function(token) {
         let jwtData = token.split('.')[1];

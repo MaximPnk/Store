@@ -1,5 +1,5 @@
 app.controller('historyController', function ($scope, $http, $rootScope) {
-    const contextPath = 'http://localhost:8189/';
+    const contextPath = 'http://localhost:8855/';
 
     $scope.formatDate = function(date){
         return new Date(date);

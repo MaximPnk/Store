@@ -1,5 +1,5 @@
 app.controller('cartController', function ($scope, $http, $localStorage) {
-    const contextPath = 'http://localhost:8189/';
+    const contextPath = 'http://localhost:8855/';
 
     $scope.fillCart = function() {
         $http.get(contextPath + 'api/v1/cart/' + $localStorage.shopCartUUID)

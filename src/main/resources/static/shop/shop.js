@@ -1,5 +1,5 @@
 app.controller('shopController', function ($scope, $http, $localStorage) {
-    const contextPath = 'http://localhost:8189/';
+    const contextPath = 'http://localhost:8855/';
 
 
     $scope.fillProducts = function (page) {

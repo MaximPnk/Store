@@ -1,5 +1,5 @@
 app.controller('productFormController', function ($scope, $http) {
-    const contextPath = 'http://localhost:8189/';
+    const contextPath = 'http://localhost:8855/';
 
     //TODO кидает кривую страницу неавторизованным
 

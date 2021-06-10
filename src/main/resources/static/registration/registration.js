@@ -1,5 +1,5 @@
 app.controller('registrationController', function ($scope, $http) {
-    const contextPath = 'http://localhost:8189/';
+    const contextPath = 'http://localhost:8855/';
 
     $scope.registerUser = function () {
         if ($scope.newUser.password !== $scope.pwConfirm) {

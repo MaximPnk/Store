@@ -1,5 +1,5 @@
 app.controller('orderController', function ($scope, $http) {
-    const contextPath = 'http://localhost:8189/';
+    const contextPath = 'http://localhost:8855/';
 
     $scope.formatDate = function(date){
         return new Date(date);
