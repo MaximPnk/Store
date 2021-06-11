@@ -5,4 +5,5 @@ services:
 
 build:
   script:
+    - mvn package
     - docker build . -t store
