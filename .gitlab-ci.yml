@@ -7,6 +7,9 @@ stages:
   - package
   - build
 
+before_script:
+  - docker login registry.gitlab.com -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
+
 maven-package:
   image: maven:3-jdk-8
   stage: package
@@ -19,4 +22,7 @@ maven-package:
 docker-build:
   stage: build
   script:
-    - docker build . -t store
+    - docker pull registry.gitlab.com/maximpnk/store || true
+    - docker build . -t registry.gitlab.com/maximpnk/store:latest -t registry.gitlab.com/maximpnk/store:$CI_COMMIT_SHA --cache-from registry.gitlab.com/maximpnk/store:latest
+    - docker push registry.gitlab.com/maximpnk/store:latest
+    - docker push registry.gitlab.com/maximpnk/store:$CI_COMMIT_SHA
