@@ -1,9 +1,22 @@
-image: docker
+image: docker:latest
 
 services:
   - docker:dind
 
-build:
+stages:
+  - package
+  - build
+
+maven-package:
+  image: maven:3-jdk-8
+  stage: package
   script:
     - mvn package
+  artifacts:
+    paths:
+      - target/*.jar
+
+docker-build:
+  stage: build
+  script:
     - docker build . -t store
