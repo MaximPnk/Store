@@ -41,4 +41,4 @@ deploy:
     - chmod 700 ~/.ssh
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
   script:
-    - ssh root@$SERVER "docker login registry.gitlab.com -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD; docker stop store || true; docker system prune -a -f; docker pull registry.gitlab.com/maximpnk/store; docker container run -d --name store -p 8855:8855; docker logout"
+    - ssh root@$SERVER "docker login registry.gitlab.com -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD; docker stop store || true; docker system prune -a -f; docker pull registry.gitlab.com/maximpnk/store; docker run -d -p 8855:8855 registry.gitlab.com/maximpnk/store; docker logout"
