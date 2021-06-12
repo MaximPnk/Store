@@ -33,13 +33,12 @@ deploy:
   image: ubuntu:latest
   stage: deploy
   before_script:
-    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY"
+    - source .${CI_COMMIT_REF_NAME}.env
     - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-    - source .${CI_COMMIT_REF_NAME}.env
   script:
     - ssh root@$SERVER "docker login registry.gitlab.com -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD; docker stop store || true; docker system prune -a -f; docker pull registry.gitlab.com/maximpnk/store; docker container run -d --name store -p 8855:8855; docker logout"
