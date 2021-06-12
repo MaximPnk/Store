@@ -17,6 +17,8 @@ package:
       - target/*.jar
 
 build:
+  dependencies:
+    - package
   when: manual
   image: docker:stable
   stage: build
@@ -29,6 +31,9 @@ build:
     - docker push registry.gitlab.com/maximpnk/store:$CI_COMMIT_SHA
 
 deploy:
+  dependencies:
+    - package
+    - build
   when: manual
   image: ubuntu:latest
   stage: deploy
